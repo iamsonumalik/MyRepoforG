@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:gravity="center" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:id="@+id/timelinelayout" android:paddingRight="25.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <Button android:id="@+id/smalllineabovetimline" android:background="@color/First" android:visibility="gone" android:layout_width="4.0dip" android:layout_height="10.0dip" android:layout_marginLeft="21.0dip" />
+        <RelativeLayout android:layout_gravity="right" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <TextView android:textAppearance="?android:textAppearanceSmall" android:textSize="12.0sp" android:textColor="@color/First" android:gravity="center_vertical" android:layout_gravity="center_horizontal" android:id="@+id/timelinedatetv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:text="Date" android:layout_toRightOf="@+id/leftstyle" android:layout_alignBottom="@+id/leftstyle" android:layout_alignParentTop="true" android:layout_alignParentRight="true" />
+            <TextView android:textAppearance="?android:textAppearanceSmall" android:textSize="18.0sp" android:typeface="serif" android:textColor="#ff000000" android:layout_gravity="center_horizontal" android:id="@+id/timelineTitletv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="7.0dip" android:layout_marginBottom="7.0dip" android:text="Title" android:layout_below="@+id/timelinedatetv" android:layout_alignLeft="@+id/timelinedatetv" />
+            <LinearLayout android:orientation="vertical" android:id="@+id/linearLayout" android:paddingBottom="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@+id/timelineTitletv" android:layout_alignLeft="@+id/timelineTitletv">
+                <TextView android:textAppearance="?android:textAppearanceSmall" android:textSize="16.0dip" android:textColor="#ff000000" android:ellipsize="end" android:id="@+id/timelinecontenettv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Content" android:maxLines="3" />
+                <ProgressBar android:id="@+id/timelineprogressbar" android:background="@drawable/timelineshadow" android:layout_width="fill_parent" android:layout_height="20.0dip" style="?android:attr/progressBarStyleHorizontal" />
+            </LinearLayout>
+            <LinearLayout android:layout_gravity="right" android:id="@+id/leftstyle" android:background="@color/First" android:layout_width="16.0dip" android:layout_height="16.0dip" android:layout_marginLeft="15.0dip" android:layout_alignParentLeft="true" android:layout_alignParentTop="true">
+                <Button android:id="@+id/bullets" android:background="#fff0f0f0" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_margin="1.0dip" />
+            </LinearLayout>
+            <RelativeLayout android:gravity="center_horizontal" android:id="@+id/relativeLayout" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_toLeftOf="@+id/timelinedatetv" android:layout_below="@+id/leftstyle" android:layout_alignLeft="@+id/leftstyle" android:layout_alignBottom="@+id/linearLayout" android:layout_alignParentBottom="true">
+                <Button android:id="@+id/smalllinebelowtimline" android:background="@color/First" android:layout_width="4.0dip" android:layout_height="fill_parent" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:id="@+id/bottomlayout" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="175.0dip" android:layout_below="@+id/timelinelayout" android:layout_alignParentTop="true">
+        <TextView android:textSize="14.0sp" android:gravity="center" android:id="@+id/endoftimeline" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="End of timeline." />
+    </LinearLayout>
+</RelativeLayout>

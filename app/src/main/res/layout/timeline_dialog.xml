@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:orientation="vertical" android:id="@+id/timelinedialogbackground" android:background="#cc000000" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@+id/timelineframelayout" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" android:layout_marginBottom="10.0dip">
+        <best.news.shorts.app.glance.ryanharter.viewpager.ViewPager android:id="@+id/timelinedialogimageView" android:background="#ee000000" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" android:layout_below="@+id/closetimelinedialog" android:layout_alignParentLeft="true" android:layout_alignParentBottom="true" app:orientation="vertical" />
+        <Button android:layout_gravity="top|right|center" android:id="@+id/closetimelinedialog" android:background="@drawable/closetimelinedialog" android:layout_width="63.0dip" android:layout_height="25.0dip" android:layout_alignParentTop="true" android:layout_alignParentRight="true" />
+        <ImageView android:id="@+id/timelineguide" android:background="@drawable/timelineposterguide" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginBottom="10.0dip" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+</FrameLayout>

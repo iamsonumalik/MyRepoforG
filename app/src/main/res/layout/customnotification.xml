@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="#ff000000" android:padding="5.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@+id/imagenotileft" android:layout_width="60.0dip" android:layout_height="60.0dip" />
+    <TextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="#ff000000" android:ellipsize="end" android:id="@+id/title" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_toRightOf="@+id/imagenotileft" android:layout_alignParentTop="true" />
+    <TextView android:textSize="14.0sp" android:textColor="#ffffffff" android:id="@+id/text" android:paddingLeft="10.0dip" android:paddingTop="5.0dip" android:paddingRight="10.0dip" android:paddingBottom="5.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="This is Body" android:layout_toRightOf="@+id/imagenotileft" android:layout_alignParentTop="true" android:lineSpacingExtra="1.0dip" />
+    <LinearLayout android:id="@+id/linearLayout2" android:paddingTop="5.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@+id/imagenotileft" android:layout_alignParentLeft="true">
+        <ImageView android:id="@+id/imagenotiright" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="fitXY" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:orientation="horizontal" android:background="#ffefefef" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:ptr="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@+id/relativeset" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <best.news.shorts.app.glance.VerticalPager android:id="@+id/verticalpager" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <TextView android:gravity="bottom|center" android:id="@+id/textviewmenumessage" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="Release for Menu" android:layout_above="@+id/allframelayout" />
+            <FrameLayout android:id="@+id/allframelayout" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <RelativeLayout android:id="@+id/alllinearLayoutGeneral" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <android.support.v4.view.ViewPager android:id="@+id/allpager" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+                </RelativeLayout>
+            </FrameLayout>
+            <RelativeLayout android:id="@+id/alltimelinelayout" android:background="#ffefefef" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@+id/allframelayout">
+                <ListView android:id="@+id/alllistview" android:background="#ffefefef" android:layout_width="fill_parent" android:layout_height="wrap_content" android:divider="@null" android:dividerHeight="0.0dip" />
+            </RelativeLayout>
+        </best.news.shorts.app.glance.VerticalPager>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/backlay2" android:background="#cc000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+        <GridLayout android:gravity="center" android:id="@+id/backlay" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:layout_centerVertical="true" android:columnCount="3">
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/indiamenu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_column="1" android:layout_row="0">
+                <ImageView android:id="@+id/indiaiv" android:background="@drawable/india" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="center" />
+                <TextView android:textSize="14.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@+id/indiatv" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="India" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/worldmenu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_column="2" android:layout_row="0">
+                <ImageView android:id="@+id/worldiv" android:background="@drawable/world" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="center" />
+                <TextView android:textSize="14.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@+id/worldtv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="World" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/businessmenu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_column="0" android:layout_row="1">
+                <ImageView android:id="@+id/businessiv" android:background="@drawable/business" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="center" />
+                <TextView android:textSize="14.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@+id/businesstv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Business" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/sportsmenu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_column="1" android:layout_row="1">
+                <ImageView android:id="@+id/sportsiv" android:background="@drawable/sports" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="center" />
+                <TextView android:textSize="14.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@+id/sportstv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sports" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/entertainmentmenu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_column="0" android:layout_row="2">
+                <ImageView android:id="@+id/entertainmentiv" android:background="@drawable/entertainment" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="center" />
+                <TextView android:textSize="14.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@+id/entertainmenttv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Entertainment" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/sciencemenu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_column="2" android:layout_row="1">
+                <ImageView android:id="@+id/scienceiv" android:background="@drawable/science" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="center" />
+                <TextView android:textSize="14.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@+id/sciencetv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Science-Tech" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/simplifiedmenu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_column="2" android:layout_row="2">
+                <ImageView android:id="@+id/explainersiv" android:background="@drawable/explainers" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="center" />
+                <TextView android:textSize="14.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@+id/explainertv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Explainer" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/viralmenu" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_column="1" android:layout_row="2">
+                <ImageView android:id="@+id/viraliv" android:background="@drawable/viral" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="center" />
+                <TextView android:textSize="14.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@+id/viraltv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="VIDEOS" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/allmenu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_column="0" android:layout_row="0">
+                <ImageView android:id="@+id/topiv" android:background="@drawable/all" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="center" />
+                <TextView android:textSize="14.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@+id/toptv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="All" />
+            </LinearLayout>
+        </GridLayout>
+        <ImageView android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginBottom="10.0dip" android:src="@drawable/closemenu" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+    <RelativeLayout android:layout_gravity="bottom|center" android:id="@+id/allviewbuttonlayout" android:background="#cc000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_alignParentLeft="true" android:layout_alignParentBottom="true">
+        <RelativeLayout android:gravity="center" android:id="@+id/refreshlayout" android:padding="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <ImageView android:id="@+id/allviewrefresh" android:background="@drawable/menu" android:layout_width="38.0dip" android:layout_height="38.0dip" />
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center" android:id="@+id/sharelayout" android:padding="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@+id/refreshlayout" android:layout_alignParentTop="true">
+            <TextView android:textSize="18.0sp" android:textColor="#ffffffff" android:id="@+id/allviewshare" android:background="@drawable/share" android:layout_width="38.0dip" android:layout_height="38.0dip" />
+        </RelativeLayout>
+        <LinearLayout android:orientation="horizontal" android:id="@+id/allviewwatchvideolayout" android:padding="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@+id/sharelayout" android:layout_alignParentTop="true">
+            <ImageView android:id="@+id/allviewwatchvideo" android:background="@drawable/video" android:layout_width="38.0dip" android:layout_height="38.0dip" android:layout_toRightOf="@+id/allviewrefresh" />
+            <TextView android:textSize="18.0sp" android:textColor="#ffffffff" android:gravity="center_vertical" android:id="@+id/watchvideotv" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="5.0dip" android:text="Watch Video" />
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:id="@+id/infolayout" android:padding="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="5.0dip" android:layout_alignParentTop="true" android:layout_alignParentRight="true">
+            <ImageView android:id="@+id/info" android:background="@drawable/info" android:layout_width="38.0dip" android:layout_height="38.0dip" android:layout_toRightOf="@+id/allviewrefresh" />
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout android:gravity="center_vertical" android:layout_gravity="top|center" android:id="@+id/bookmarklayout" android:background="#cc000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_alignParentLeft="true" android:layout_alignParentTop="true">
+        <ImageView
+            android:id="@+id/backbookmark"
+            android:background="@drawable/backbookmark" android:visibility="gone" android:layout_width="38.0dip" android:layout_height="38.0dip" android:layout_marginLeft="12.0dip" android:layout_alignParentLeft="true" />
+        <TextView android:textSize="18.0sp" android:textColor="#ffffffff" android:gravity="center_vertical" android:id="@+id/seebookmark" android:background="@drawable/menuborder" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:text="My Bookmarks" android:layout_toRightOf="@+id/backbookmark" />
+        <ImageView android:id="@+id/setbookmark" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginRight="12.0dip" android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    <TextView android:textAppearance="?android:textAppearanceLarge" android:textSize="16.0sp" android:textColor="#ffffffff" android:gravity="center" android:layout_gravity="center" android:id="@+id/youareoffline" android:background="#cc000000" android:paddingLeft="15.0dip" android:paddingTop="10.0dip" android:paddingRight="15.0dip" android:paddingBottom="10.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/interneterror" />
+    <RelativeLayout android:layout_gravity="bottom|right|center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="15.0dip">
+        <Button android:id="@+id/moreonbutton" android:background="@drawable/viralplus" android:layout_width="60.0dip" android:layout_height="60.0dip" android:layout_alignParentRight="true" android:layout_alignParentBottom="true" />
+        <Button android:id="@+id/goupbutton" android:background="@drawable/goup" android:visibility="gone" android:layout_width="60.0dip" android:layout_height="60.0dip" android:layout_toLeftOf="@+id/moreonbutton" android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/tagslayout" android:background="#cc000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ImageView android:id="@+id/tagsselectionimageview" android:layout_width="60.0dip" android:layout_height="60.0dip" android:layout_margin="15.0dip" android:src="@drawable/timelineclose" android:layout_alignParentRight="true" android:layout_alignParentBottom="true" />
+        <ListView android:id="@+id/timlinetagslistView" android:focusableInTouchMode="false" android:clickable="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:listSelector="#00000000" android:divider="@null" android:dividerHeight="0.0dip" android:layout_above="@+id/tagsselectionimageview" android:layout_alignRight="@+id/tagsselectionimageview" />
+    </RelativeLayout>
+    <TextView android:textSize="16.0sp" android:layout_gravity="center" android:id="@+id/loadingtimelinetv" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Loading Timeline..." android:lineSpacingExtra="3.0dip" />
+    <LinearLayout android:gravity="right" android:layout_gravity="bottom|right|center" android:orientation="vertical" android:id="@+id/imagecreditlayout" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="5.0dip" android:layout_marginBottom="50.0dip">
+        <TextView android:textSize="12.0dip" android:textColor="#fffefefe" android:id="@+id/imagecredit" android:background="#ff000000" android:padding="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Credits" />
+        <ImageView android:layout_width="12.0dip" android:layout_height="10.0dip" android:layout_marginRight="5.0dip" android:src="@drawable/tooltiptriangle" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/watchvideotut" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ImageView android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/boardingh" android:scaleType="fitXY" />
+    </LinearLayout>
+</FrameLayout>

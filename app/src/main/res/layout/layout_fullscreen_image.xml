@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/timelinebackground" android:background="#ffe6e7e8" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@+id/imgDisplay" android:background="@drawable/waiting" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" />
+    <Button android:id="@+id/playit" android:background="@drawable/playit" android:visibility="gone" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_centerHorizontal="true" android:layout_centerVertical="true" />
+</RelativeLayout>

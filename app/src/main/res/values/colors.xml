@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#fff</color>
+    <color name="red">#be1e2d</color>
+    <color name="white">#FFFFFF</color>
+    <color name="dailogtitle">#4c4c4c</color>
+    <color name="description">#808080</color>
+    <color name="updatenow">#2196f3</color>
+
+    <color name="First">#DE1C24</color>
+    <color name="second">#009751</color>
+    <color name="three">#009FE0</color>
+    <color name="four">#2E3183</color>
+    <color name="five">#DD0080</color>
+    <color name="six">#E25A29</color>
+    <color name="seven">#662D82</color>
+    <color name="eight">#603913</color>
+
+    <color name="holo_blue">#FF33E5B5</color>
+    <color name="last">#ECA140</color>
+</resources>

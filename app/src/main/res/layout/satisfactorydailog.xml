@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:background="#fffafafa" android:padding="20.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:layout_centerVertical="true">
+        <TextView android:textSize="18.0sp" android:textColor="@color/dailogtitle" android:id="@+id/satisfytitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/satifytitle" android:layout_alignParentLeft="true" android:layout_alignParentRight="true" />
+        <TextView android:textSize="18.0sp" android:textColor="@color/description" android:id="@+id/satisfydescription" android:paddingTop="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/satisfydescription" android:layout_below="@+id/satisfytitle" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/updatenow" android:id="@+id/yes" android:paddingTop="20.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="25.0dip" android:text="@string/satifyyes" android:layout_below="@+id/satisfydescription" android:layout_alignParentRight="true" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/dailogtitle" android:id="@+id/no" android:paddingTop="20.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="25.0dip" android:text="@string/satifyNO" android:layout_below="@+id/satisfydescription" android:layout_alignParentLeft="true" />
+    </RelativeLayout>
+</RelativeLayout>
