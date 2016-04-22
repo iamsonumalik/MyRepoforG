@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -42,6 +43,7 @@ public class ViralList extends Activity {
     private TextView followtag;
     private String myfeed;
     private SharedPreferences.Editor editor;
+    private ProgressBar progressBarforlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,7 @@ public class ViralList extends Activity {
         backtagsbutton = (Button) findViewById(R.id.backtagsbutton);
         tagname = (TextView) findViewById(R.id.tagname);
         followtag =(TextView) findViewById(R.id.followtag);
+        progressBarforlist = (ProgressBar) findViewById(R.id.progressBarforlist);
     }
 
     private void initializeArraylists() {
@@ -134,7 +137,8 @@ public class ViralList extends Activity {
                     timelinetags,
                     youtubeVideoId,
                     _id,
-                    viraltimestampcreated
+                    viraltimestampcreated,
+                    progressBarforlist
 
             );
             viraltagslistview.setAdapter(cv);

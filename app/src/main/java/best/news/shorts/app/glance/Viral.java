@@ -16,8 +16,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +53,13 @@ public class Viral extends Activity {
     private String gettoken;
     private RelativeLayout listlayout;
     private ListView videolistview;
+    private RelativeLayout loadingviewvideos;
+    private ImageView fackbookimageview;
+     private ImageView twitterimageview;
+     private ImageView youtubeimageview;
+     private ImageView vineimageview;
+     private ImageView instaimageview;
+    private ProgressBar progressBarforlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +76,11 @@ public class Viral extends Activity {
 
 
         Vector<View> vectorpages = new Vector<View>();
-        addfirstview(vectorpages);
+        //addfirstview(vectorpages);
         getCurrentView(arraysubCategory,vectorpages);
         CustomPagerAdapter adapter = new CustomPagerAdapter(getBaseContext(),vectorpages);
         viewPager.setAdapter(adapter);
+        //viewPager.setPageTransformer(true, new CubeInTransformer());
 
     }
 
@@ -78,6 +88,14 @@ public class Viral extends Activity {
         viewPager = (ViewPager) findViewById(R.id.videopager);
         listlayout = (RelativeLayout) findViewById(R.id.listlayout);
         videolistview = (ListView) findViewById(R.id.videolistview);
+        loadingviewvideos = (RelativeLayout) findViewById(R.id.loadingviewvideos);
+        fackbookimageview = (ImageView)findViewById(R.id.fackbookimageview);
+        twitterimageview = (ImageView) findViewById(R.id.twitterimageview);
+        youtubeimageview = (ImageView) findViewById(R.id.youtubeimageview);
+        vineimageview = (ImageView) findViewById(R.id.vineimageview);
+        instaimageview = (ImageView) findViewById(R.id.instaimageview);
+        progressBarforlist = (ProgressBar) findViewById(R.id.progressBarforlist);
+        removeAllImageView(getBaseContext());
         listlayout.setVisibility(View.GONE);
 
     }
@@ -92,7 +110,7 @@ public class Viral extends Activity {
         timelinetags= new ArrayList<String>();
     }
 
-    private void addfirstview(Vector<View> vectorpages) {
+    private void addfirstview(LinearLayout pages) {
         View firstview = ((LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.viewpagerfirstview, null, false);
 
@@ -136,7 +154,8 @@ public class Viral extends Activity {
                         timelinetags,
                         youtubeVideoId,
                         _id,
-                        viraltimestampcreated
+                        viraltimestampcreated,
+                        progressBarforlist
 
                 );
                 videolistview.setAdapter(cv);
@@ -149,7 +168,7 @@ public class Viral extends Activity {
                 }
             }
         });
-        vectorpages.add(firstview);
+        pages.addView(firstview);
     }
 
     private void getCurrentView(String[] strings,Vector<View> vectorpages) {
@@ -163,7 +182,9 @@ public class Viral extends Activity {
 
             LinearLayout pages = (LinearLayout) footerView.findViewById(R.id.viewpagerlinearlayout);
             pages.setOrientation(LinearLayout.VERTICAL);
-
+            if (check==0){
+                addfirstview(pages);
+            }
             for (int i = check; i < check+15; i++) {
                 if (i<strings.length) {
                     final TextView textView = new TextView(Viral.this);
@@ -174,8 +195,29 @@ public class Viral extends Activity {
                         @Override
                         public void onClick(View v) {
                             tagsselction=textView.getText().toString();
-                            new FetchTimeline().execute();
+                            loadingviewvideos.setVisibility(View.VISIBLE);
                             listlayout.setVisibility(View.VISIBLE);
+                            Thread t = new Thread(){
+                                boolean w = true;
+                                @Override
+                                public void interrupt() {
+                                    w = false;
+                                    //super.interrupt();
+                                }
+
+                                @Override
+                                public void run() {
+                                    super.run();
+                                    while (w){
+                                        doit(getBaseContext());
+                                    }
+
+                                }
+                            };;
+                            t.start();
+                            new FetchTimeline(t).execute();
+
+
                         }
                     });
                     pages.addView(textView);
@@ -224,7 +266,12 @@ public class Viral extends Activity {
     private class FetchTimeline extends AsyncTask<String,String,String> {
 
 
+        private final Thread t;
         private Viral_ListView cv;
+
+        public FetchTimeline(Thread t) {
+            this.t = t;
+        }
 
         @Override
         protected void onPreExecute()
@@ -247,7 +294,8 @@ public class Viral extends Activity {
                     timelinetags,
                     youtubeVideoId,
                     _id,
-                    viraltimestampcreated
+                    viraltimestampcreated,
+                    progressBarforlist
 
             );
             videolistview.setAdapter(cv);
@@ -360,6 +408,8 @@ public class Viral extends Activity {
         {
             super.onPostExecute(s);
             cv.notifyDataSetChanged();
+            t.interrupt();
+            loadingviewvideos.setVisibility(View.GONE);
 
         }
     }
@@ -370,5 +420,52 @@ public class Viral extends Activity {
             listlayout.setVisibility(View.GONE);
         else
         super.onBackPressed();
+    }
+
+
+
+    private void doit(final Context baseContext) {
+        for (int i = 0; i < 5 ; i++) {
+
+            final int finalI = i;
+            runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+            removeAllImageView(baseContext);
+            switch (finalI){
+                case 0:
+                    fackbookimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.fw));
+                    break;
+                case 1:
+                    twitterimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.tw));
+                    break;
+                case 2:
+                    youtubeimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.yw));
+                    break;
+                case 3:
+                    vineimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.vw));
+                    break;
+                case 4:
+                    instaimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.iw));
+                    break;
+            }
+
+        }
+        });
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void removeAllImageView(Context baseContext) {
+        fackbookimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.fb));
+        twitterimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.tb));
+        youtubeimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.yb));
+        vineimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.vb));
+        instaimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.ib));
     }
 }

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -51,6 +52,7 @@ public class Viral_ListView extends ArrayAdapter
     private final int height;
     private final ArrayList<String> _id;
     private final ArrayList<String> viraltimestampcreated;
+    private final ProgressBar progressBarforlist;
     private Activity _activity;
     private final Context context;
     private final ArrayList<String> headlines;
@@ -72,7 +74,11 @@ public class Viral_ListView extends ArrayAdapter
                           Resources resources,
                           Activity activity,
                           ArrayList<String> timelinetags,
-                          ArrayList<String> youtubeVideoId, ArrayList<String> _id, ArrayList<String> viraltimestampcreated)
+                          ArrayList<String> youtubeVideoId,
+                          ArrayList<String> _id,
+                          ArrayList<String> viraltimestampcreated,
+                          ProgressBar progressBarforlist
+                          )
     {
         super(context1, R.layout.timeline_layout, headlines);
         context = context1;
@@ -84,7 +90,12 @@ public class Viral_ListView extends ArrayAdapter
         this.timelinetags = timelinetags;
         this.youtubeVideoId =youtubeVideoId;
         this._id = _id;
+        this.progressBarforlist =progressBarforlist;
         this.viraltimestampcreated =viraltimestampcreated;
+
+        Drawable draw = getres.getDrawable(R.drawable.custom_progressbar);
+        this.progressBarforlist.setProgressDrawable(draw);
+        this.progressBarforlist.setProgress(0);
         Display display = _activity.getWindowManager().getDefaultDisplay();
         width = display.getWidth();  // deprecated
         height = display.getHeight();  // deprecated
@@ -116,10 +127,6 @@ public class Viral_ListView extends ArrayAdapter
         Typeface head = Typeface.createFromAsset(_activity.getAssets(), "headline.otf");
 
         String imgageUrl= "http://d2vwmcbs3lyudp.cloudfront.net/"+item_public_id;
-
-
-
-
 
         String[] tags = item_tags.split(",");
         for (int i = 0; i < tags.length; i++) {
@@ -213,7 +220,9 @@ public class Viral_ListView extends ArrayAdapter
 
             }
         });
-
+        if (view_pos==0)
+        progressBarforlist.setMax(headlines.size());
+        progressBarforlist.setProgress(view_pos+1);
         return rowView;
     }
 
