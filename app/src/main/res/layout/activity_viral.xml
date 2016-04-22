@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     android:id="@+id/viralbackground"
-    android:background="#000"
+    android:background="#fff"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:gravity="center_vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/videopager"
+        android:padding="5dp"
         >
     </android.support.v4.view.ViewPager>
     <RelativeLayout
@@ -18,6 +20,56 @@
         android:id="@+id/listlayout"
         android:background="#ccc"
         >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <RelativeLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/bookmarkheaderlayout"
+                android:background="#000"
+                android:padding="10dp"
+                >
+                <Button
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:id="@+id/bookmarkbackbutton"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/backbookmark"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="21dp"
+                    android:textColor="#fff"
+                    android:id="@+id/bookmarkname"
+                    android:layout_margin="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/bookmarkbackbutton"
+                    android:layout_toEndOf="@+id/bookmarkbackbutton" />
+
+            </RelativeLayout>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:id="@+id/videolistview"
+                android:layout_below="@+id/bookmarkheaderlayout"
+                />
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="3.0dip"
+                android:id="@+id/progressBarforlist"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,39 +86,38 @@
                 android:id="@+id/linearLayout3">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/fw"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:id="@+id/fackbookimageview"
                     />
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/tw"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:id="@+id/twitterimageview"
                     />
+
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/yw"
                     android:id="@+id/youtubeimageview"
                     />
+
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/vw"
                     android:id="@+id/vineimageview"
                     />
+
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:background="@drawable/iw"
                     android:id="@+id/instaimageview"
                     />
@@ -83,27 +134,60 @@
                 android:layout_marginTop="18dp"
                 android:textColor="#FFF" />
             </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000"
+        android:visibility="gone"
+        android:id="@+id/filtetagslayout"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#fff"
+            >
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/filtetagsheaderlayout"
+            android:background="#000"
+            android:padding="10dp"
+            >
+            <Button
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:id="@+id/filtetagsbackbutton"
+                android:layout_centerVertical="true"
+                android:background="@drawable/backbookmark"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="21dp"
+                android:text="Filter your tags"
+                android:textColor="#fff"
+                android:id="@+id/filtetagsname"
+                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/filtetagsbackbutton"
+                android:layout_toEndOf="@+id/filtetagsbackbutton" />
+
+        </RelativeLayout>
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@null"
             android:dividerHeight="0dp"
-            android:id="@+id/videolistview"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_above="@+id/progressBarforlist"
+            android:id="@+id/filtetagslistview"
+            android:layout_below="@+id/filtetagsheaderlayout"
 
             />
-
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="2.0dip"
-            android:id="@+id/progressBarforlist"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

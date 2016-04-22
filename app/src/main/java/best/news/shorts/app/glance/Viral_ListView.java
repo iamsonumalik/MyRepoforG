@@ -53,6 +53,8 @@ public class Viral_ListView extends ArrayAdapter
     private final ArrayList<String> _id;
     private final ArrayList<String> viraltimestampcreated;
     private final ProgressBar progressBarforlist;
+    private final ArrayList<String> timelinepeopletags;
+    private final ArrayList<String> timelineplacetags;
     private Activity _activity;
     private final Context context;
     private final ArrayList<String> headlines;
@@ -77,7 +79,9 @@ public class Viral_ListView extends ArrayAdapter
                           ArrayList<String> youtubeVideoId,
                           ArrayList<String> _id,
                           ArrayList<String> viraltimestampcreated,
-                          ProgressBar progressBarforlist
+                          ProgressBar progressBarforlist,
+                          ArrayList<String> timelinepeopletags,
+                          ArrayList<String> timelineplacetags
                           )
     {
         super(context1, R.layout.timeline_layout, headlines);
@@ -92,8 +96,9 @@ public class Viral_ListView extends ArrayAdapter
         this._id = _id;
         this.progressBarforlist =progressBarforlist;
         this.viraltimestampcreated =viraltimestampcreated;
-
-        Drawable draw = getres.getDrawable(R.drawable.custom_progressbar);
+        this.timelinepeopletags = timelinepeopletags;
+        this.timelineplacetags =timelineplacetags;
+        Drawable draw = getres.getDrawable(R.drawable.viralprogressbar);
         this.progressBarforlist.setProgressDrawable(draw);
         this.progressBarforlist.setProgress(0);
         Display display = _activity.getWindowManager().getDefaultDisplay();
@@ -119,22 +124,28 @@ public class Viral_ListView extends ArrayAdapter
         final String item_public_id = timelinepublicid.get(view_pos);
         final String item_duration = timelinedate.get(view_pos);
         final String item_tags = timelinetags.get(view_pos);
+        final String item_peopletags = timelinepeopletags.get(view_pos);
+        final String item_placetags = timelineplacetags.get(view_pos);
         String item__id = _id.get(view_pos);
         final String item_viraltimestampcreated = viraltimestampcreated.get(view_pos);
         String item_youtubeVideoId = youtubeVideoId.get(view_pos);
 
-        Typeface cont = Typeface.createFromAsset(_activity.getAssets(), "content.otf");
-        Typeface head = Typeface.createFromAsset(_activity.getAssets(), "headline.otf");
-
+        //gridlayouttags.setUseDefaultMargins(true);
+        Typeface lodingfont = Typeface.createFromAsset(_activity.getAssets(), "lodingfont.ttf");
+        Typeface content = Typeface.createFromAsset(_activity.getAssets(), "content.otf");
+        virallistviewtitle.setTypeface(lodingfont);
+        virallistviewduration.setTypeface(content);
         String imgageUrl= "http://d2vwmcbs3lyudp.cloudfront.net/"+item_public_id;
 
         String[] tags = item_tags.split(",");
         for (int i = 0; i < tags.length; i++) {
                 final TextView tagtv = new TextView(_activity);
             tagtv.setText(tags[i]);
-            tagtv.setPadding(7,7,7,7);
+            tagtv.setTypeface(lodingfont);
+            //tagtv.setPadding(7,7,7,7);
             tagtv.setTextSize(16);
-            tagtv.setTextColor(Color.RED);
+            tagtv.setBackground(getres.getDrawable(R.drawable.othertagborder));
+            tagtv.setTextColor(Color.parseColor("#754c29"));
             tagtv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -145,6 +156,48 @@ public class Viral_ListView extends ArrayAdapter
                         _activity.startActivity(i);
                     }
                 });
+            gridlayouttags.addView(tagtv);
+        }
+        String[] pltags = item_peopletags.split(",");
+        for (int i = 0; i < pltags.length; i++) {
+            final TextView tagtv = new TextView(_activity);
+            tagtv.setText(pltags[i]);
+            tagtv.setTypeface(lodingfont);
+            //tagtv.setPadding(7,7,7,7);
+            tagtv.setTextSize(16);
+            tagtv.setBackground(getres.getDrawable(R.drawable.placeborder));
+            tagtv.setTextColor(Color.parseColor("#ec008c"));
+            tagtv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //tagsselction=textView.getText().toString();
+                    //new FetchTimeline().execute();
+                    Intent i = new Intent(_activity,ViralList.class);
+                    i.putExtra("tag",tagtv.getText().toString());
+                    _activity.startActivity(i);
+                }
+            });
+            gridlayouttags.addView(tagtv);
+        }
+        String[] petags = item_placetags.split(",");
+        for (int i = 0; i < petags.length; i++) {
+            final TextView tagtv = new TextView(_activity);
+            tagtv.setText(petags[i]);
+            tagtv.setTypeface(lodingfont);
+            //tagtv.setPadding(7,7,7,7);
+            tagtv.setTextSize(16);
+            tagtv.setBackground(getres.getDrawable(R.drawable.peopleborder));
+            tagtv.setTextColor(Color.parseColor("#00aeef"));
+            tagtv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //tagsselction=textView.getText().toString();
+                    //new FetchTimeline().execute();
+                    Intent i = new Intent(_activity,ViralList.class);
+                    i.putExtra("tag",tagtv.getText().toString());
+                    _activity.startActivity(i);
+                }
+            });
             gridlayouttags.addView(tagtv);
         }
         Picasso.with(context)
@@ -205,7 +258,8 @@ public class Viral_ListView extends ArrayAdapter
                                 item_tags,
                                 finalitem__id,
                                 item_viraltimestampcreated,
-                                finalitem_youtubeVideoId
+                                finalitem_youtubeVideoId,
+                                item_peopletags,item_placetags
                         );
                         finalviralbookmark.setBackground(getres.getDrawable(R.drawable.b_yes));
                     } catch (Exception e) {

@@ -26,6 +26,10 @@ public class SavingViral
                     ""+History_timestampcreated+" VARCHAR2(400), " +
                     ""+History_viraltags+" VARCHAR2(400), " +
                     ""+History_youtubeVideoId+" VARCHAR2(400), " +
+                    ""+History_peopletags+" VARCHAR2(400), " +
+
+                    ""+History_placetags+" VARCHAR2(400), " +
+
                     ""+History_youtubeVideoDuration+" VARCHAR2(40)); ");
         }
 
@@ -50,6 +54,8 @@ public class SavingViral
     public static final String History_youtubeVideoId = "youtubeVideoId";
     public static final String History_public_id = "viralpublicid";
     public static final String History_viraltags = "viraltags";
+    public static final String History_peopletags = "peopletags";
+    public static final String History_placetags = "placetags";
     public static final String History_youtubeVideoDuration = "youtubeVideoDuration";
     public static final String History_timestampcreated = "timestampcreated";
     private static SQLiteDatabase ourdatabase;
@@ -72,7 +78,9 @@ public class SavingViral
             , String item_tags
             , String item__id
             , String item_viraltimestampcreated
-            , String item_youtubeVideoId)
+            , String item_youtubeVideoId
+            , String item_peopletags
+            , String item_placetags)
         throws Exception
     {
         ContentValues contentvalues = new ContentValues();
@@ -83,6 +91,8 @@ public class SavingViral
         contentvalues.put(History__id, item__id);
         contentvalues.put(History_timestampcreated, item_viraltimestampcreated);
         contentvalues.put(History_youtubeVideoId, item_youtubeVideoId);
+        contentvalues.put(History_peopletags, item_peopletags);
+        contentvalues.put(History_placetags, item_placetags);
         return ourdatabase.insert(DATABASE_TABLE1, null, contentvalues);
     }
 
@@ -105,7 +115,9 @@ public class SavingViral
                 History_public_id,
                 History_viraltags,
                 History_youtubeVideoDuration,
-                History_timestampcreated
+                History_timestampcreated,
+                History_peopletags,
+                History_placetags
         }, null, null, null, null, History_timestampcreated+" ASC");
         ArrayList<String> arraylist = new ArrayList<String>();
 
@@ -117,6 +129,8 @@ public class SavingViral
         int i_5 = cursor.getColumnIndex(History_youtubeVideoDuration);
         int i_6 = cursor.getColumnIndex(History_public_id);
         int i_7 = cursor.getColumnIndex(History_viraltags);
+        int i_8 = cursor.getColumnIndex(History_peopletags);
+        int i_9 = cursor.getColumnIndex(History_placetags);
 
         cursor.moveToLast();
         for (; !cursor.isBeforeFirst(); cursor.moveToPrevious())
@@ -128,6 +142,8 @@ public class SavingViral
             arraylist.add(cursor.getString(i_5));
             arraylist.add(cursor.getString(i_6));
             arraylist.add(cursor.getString(i_7));
+            arraylist.add(cursor.getString(i_8));
+            arraylist.add(cursor.getString(i_9));
 
 
         }

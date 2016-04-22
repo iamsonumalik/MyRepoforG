@@ -1,13 +1,16 @@
 package best.news.shorts.app.glance;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -34,6 +37,9 @@ public class ViralList extends Activity {
     private ArrayList<String> youtubeVideoId;
     private ArrayList<String> timelinepublicid;
     private ArrayList<String> timelinetags;
+
+    private ArrayList<String> timelinepeopletags;
+    private ArrayList<String> timelineplacetags;
     private ListView viraltagslistview;
     private Object gettoken;
     private SharedPreferences prefs;
@@ -44,6 +50,14 @@ public class ViralList extends Activity {
     private String myfeed;
     private SharedPreferences.Editor editor;
     private ProgressBar progressBarforlist;
+    private Typeface lodingfont;
+    private RelativeLayout loadingviewvideos;
+    private ImageView twitterimageview;
+    private ImageView fackbookimageview;
+    private ImageView youtubeimageview;
+    private ImageView vineimageview;
+    private TextView linelodaingvideo;
+    private ImageView instaimageview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +65,8 @@ public class ViralList extends Activity {
         setContentView(R.layout.activity_viral_list);
         initializeArraylists();
         initializeView();
+        lodingfont = Typeface.createFromAsset(getAssets(), "lodingfont.ttf");
+
         tagsselction = getIntent().getStringExtra("tag");
         prefs = getSharedPreferences(MY_PREFS_NAME, 0);
         editor = getSharedPreferences(MY_PREFS_NAME, 0).edit();
@@ -63,8 +79,30 @@ public class ViralList extends Activity {
         }else {
             followtag.setText("Follow");
         }
+
+        tagname.setTypeface(lodingfont);
+        followtag.setTypeface(lodingfont);
+
         tagname.setText(tagsselction);
-        new FetchTimeline().execute();
+        loadingviewvideos.setVisibility(View.VISIBLE);
+        Thread t = new Thread(){
+            boolean w = true;
+            @Override
+            public void interrupt() {
+                w = false;
+                //super.interrupt();
+            }
+
+            @Override
+            public void run() {
+                super.run();
+                while (w){
+                    doit(getBaseContext());
+                }
+
+            }
+        };t.start();
+        new FetchTimeline(t).execute();
 
         backtagsbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +138,25 @@ public class ViralList extends Activity {
         tagname = (TextView) findViewById(R.id.tagname);
         followtag =(TextView) findViewById(R.id.followtag);
         progressBarforlist = (ProgressBar) findViewById(R.id.progressBarforlist);
+        loadingviewvideos = (RelativeLayout) findViewById(R.id.loadingviewvideos);
+        fackbookimageview = (ImageView)findViewById(R.id.fackbookimageview);
+        twitterimageview = (ImageView) findViewById(R.id.twitterimageview);
+        youtubeimageview = (ImageView) findViewById(R.id.youtubeimageview);
+        vineimageview = (ImageView) findViewById(R.id.vineimageview);
+        instaimageview = (ImageView) findViewById(R.id.instaimageview);
+        linelodaingvideo  = (TextView) findViewById(R.id.linelodaingvideo);
+        linelodaingvideo.setTypeface(lodingfont);
+
+
+        removeAllImageView(getBaseContext());
+    }
+
+    private void removeAllImageView(Context baseContext) {
+        fackbookimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.fw));
+        twitterimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.tw));
+        youtubeimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.yw));
+        vineimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.vw));
+        instaimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.iw));
     }
 
     private void initializeArraylists() {
@@ -110,11 +167,19 @@ public class ViralList extends Activity {
         youtubeVideoId= new ArrayList<String>();
         timelinepublicid= new ArrayList<String>();
         timelinetags= new ArrayList<String>();
+
+        timelinepeopletags= new ArrayList<String>();
+        timelineplacetags= new ArrayList<String>();
     }
     private class FetchTimeline extends AsyncTask<String,String,String> {
 
 
+        private final Thread t;
         private Viral_ListView cv;
+
+        public FetchTimeline(Thread t) {
+            this.t= t;
+        }
 
         @Override
         protected void onPreExecute()
@@ -127,6 +192,8 @@ public class ViralList extends Activity {
             timelinedate.removeAll(timelinedate);
             timelinepublicid.removeAll(timelinepublicid);
             timelinetags.removeAll(timelinetags);
+            timelinepeopletags.removeAll(timelinepeopletags);
+            timelineplacetags.removeAll(timelineplacetags);
 
             cv = new Viral_ListView(getBaseContext(),
                     headlines,
@@ -138,7 +205,9 @@ public class ViralList extends Activity {
                     youtubeVideoId,
                     _id,
                     viraltimestampcreated,
-                    progressBarforlist
+                    progressBarforlist,
+                    timelinepeopletags,
+                    timelineplacetags
 
             );
             viraltagslistview.setAdapter(cv);
@@ -152,7 +221,7 @@ public class ViralList extends Activity {
 
             try {
                 String strUrl;
-                String stags = tagsselction;
+                String stags = tagsselction.replaceAll("#","%23");
                 String fstags = (new StringBuilder()).append("%5B%22")
                         .append(stags.replaceAll(",", "%22%2C%22"))
                         .append("%22%5D").toString();
@@ -222,15 +291,37 @@ public class ViralList extends Activity {
                             }
                         }
                         JSONArray people = tags.getJSONArray("people");
+                        String peopletags = "";
                         for (int j = 0; j < people.length(); j++) {
                             String temptag = people.getString(j);
-                            othertags += "," + temptag;
+                            if (others.length() == 1) {
+                                peopletags += temptag;
+                            } else if (j == 0) {
+                                peopletags += temptag;
+                            } else if (j == (others.length() - 1)) {
+                                peopletags += "," + temptag;
+                            } else {
+                                peopletags += "," + temptag;
+
+                            }
                         }
                         JSONArray place = tags.getJSONArray("place");
+                        String placetags = "";
                         for (int j = 0; j < place.length(); j++) {
                             String temptag = place.getString(j);
-                            othertags += "," + temptag;
+                            if (others.length() == 1) {
+                                placetags += temptag;
+                            } else if (j == 0) {
+                                placetags += temptag;
+                            } else if (j == (others.length() - 1)) {
+                                placetags += "," + temptag;
+                            } else {
+                                placetags += "," + temptag;
+                            }
                         }
+
+                        timelineplacetags.add(placetags);
+                        timelinepeopletags.add(peopletags);
                         timelinetags.add(othertags);
                         timelinedate.add(data.getString("youtubeVideoDuration"));
                         youtubeVideoId.add(data.getString("youtubeVideoId"));
@@ -249,9 +340,49 @@ public class ViralList extends Activity {
         {
             super.onPostExecute(s);
             cv.notifyDataSetChanged();
+            t.interrupt();
+            loadingviewvideos.setVisibility(View.GONE);
 
         }
     }
+
+    private void doit(final Context baseContext) {
+        for (int i = 0; i < 5 ; i++) {
+
+            final int finalI = i;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    removeAllImageView(baseContext);
+                    switch (finalI){
+                        case 0:
+                            fackbookimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.fb));
+                            break;
+                        case 1:
+                            twitterimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.tb));
+                            break;
+                        case 2:
+                            youtubeimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.yb));
+                            break;
+                        case 3:
+                            vineimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.vb));
+                            break;
+                        case 4:
+                            instaimageview.setImageDrawable(baseContext.getResources().getDrawable(R.drawable.ib));
+                            break;
+                    }
+
+                }
+            });
+
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     @Override
     protected void onPause() {

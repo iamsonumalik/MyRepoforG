@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,7 +18,9 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -31,6 +34,8 @@ import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
+
 import org.json.JSONObject;
 
 // Referenced classes of package best.news.shorts.app.glance:
@@ -38,10 +43,15 @@ import org.json.JSONObject;
 
 public class MainActivity extends Activity
 {
-    private Button mainnews;
-    private Button mainvideos;
+    private LinearLayout mainnews;
+    private LinearLayout mainvideos;
     private boolean news;
-    private LinearLayout chooserlayout;
+    private RelativeLayout chooserlayout;
+    private GridView gridview;
+    private GridImages gridImages;
+    private ArrayList<Drawable> image_clips;
+    private RelativeLayout everythinglayout;
+    private TextView time;
 
     private class AuthIt extends AsyncTask<String,String,String>{
         @Override
@@ -53,6 +63,7 @@ public class MainActivity extends Activity
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            everythinglayout.setVisibility(View.GONE);
             chooserlayout.setVisibility(View.VISIBLE);
         }
     }
@@ -71,12 +82,36 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FacebookSdk.sdkInitialize(this);
+
         TextView tv = (TextView) findViewById(R.id.textView);
-        mainnews = (Button) findViewById(R.id.mainnews);
-        mainvideos = (Button) findViewById(R.id.mainvideos);
-        chooserlayout = (LinearLayout) findViewById(R.id.chooserlayout);
+        mainnews = (LinearLayout) findViewById(R.id.mainnews);
+        mainvideos = (LinearLayout) findViewById(R.id.mainvideos);
+        chooserlayout = (RelativeLayout) findViewById(R.id.chooserlayout);
+        everythinglayout = (RelativeLayout) findViewById(R.id.everythinglayout);
+        time = (TextView) findViewById(R.id.time);
+        gridview = (GridView) findViewById(R.id.loadinggridview);
+        TextView videostv = (TextView) findViewById(R.id.videostv);
+        TextView mainquestion = (TextView) findViewById(R.id.mainquestion);
+        TextView newstv = (TextView) findViewById(R.id.newstv);
+
+        gridImages = new GridImages(getBaseContext());
+        image_clips = new ArrayList<Drawable>();
+        image_clips = gridImages.getArrayBitmap();
+        final ArrayList<Drawable> helper_clips = image_clips;
+        final ImageAdapter im = new ImageAdapter(MainActivity.this, this, image_clips);
+        gridview.setAdapter(im);
+
+        Typeface greeting = Typeface.createFromAsset(getAssets(), "treench.otf");
         final Typeface face = Typeface.createFromAsset(getAssets(), "lodingfont.ttf");
         tv.setTypeface(face);
+        time.setTypeface(greeting);
+        mainquestion.setTypeface(greeting);
+        newstv.setTypeface(face);
+        videostv.setTypeface(face);
+
+        Random r = new Random();
+        Quotes quotes = new Quotes();
+        time.setText(quotes.getQuoteslist(r.nextInt(12)));
 
         prefs = getSharedPreferences(MY_PREFS_NAME, 0);
         editor = getSharedPreferences(MY_PREFS_NAME, 0).edit();
@@ -133,6 +168,7 @@ public class MainActivity extends Activity
                 intent.putExtra("fromnoti", fromnoti);
                 intent.putExtra("news",true);
                 startActivity(intent);
+
                 finish();
             }
         });

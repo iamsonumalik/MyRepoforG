@@ -36,7 +36,6 @@ public class LoadingActivity extends Activity
     private String gettoken;
     private GridImages gridImages;
     private GridView gridview;
-    private TextView time;
     private TextView totalnews;
 
 
@@ -49,7 +48,7 @@ public class LoadingActivity extends Activity
         boolean news = getIntent().getBooleanExtra("news", true);
         image_clips = new ArrayList<Drawable>();
         backgroundlayout = (RelativeLayout) findViewById(R.id.background);
-        time = (TextView) findViewById(R.id.time);
+
         totalnews = (TextView) findViewById(R.id.getnews);
         firstBar = (ProgressBar) findViewById(R.id.firstBar);
         gridview = (GridView) findViewById(R.id.loadinggridview);
@@ -60,18 +59,16 @@ public class LoadingActivity extends Activity
         final ImageAdapter im = new ImageAdapter(LoadingActivity.this, this, image_clips);
         gridview.setAdapter(im);
 
-        Typeface greeting = Typeface.createFromAsset(getAssets(), "treench.otf");
+
         Typeface face = Typeface.createFromAsset(getAssets(), "lodingfont.ttf");
-        time.setTypeface(greeting);
+
         totalnews.setTypeface(face);
 
         final int[] i = {0};
         Drawable draw = getResources().getDrawable(R.drawable.custom_progressbar);
         firstBar.setProgressDrawable(draw);
         gettoken = prefs.getString("token", "");
-        Random r = new Random();
-        Quotes quotes = new Quotes();
-        time.setText(quotes.getQuoteslist(r.nextInt(12)));
+
 
 
         if (news)

@@ -87,6 +87,9 @@ public class GettingVideos extends AsyncTask<String, String, Void> {
             for (int i = 0; i < subCategory.length(); i++) {
                 //Log.e("L", String.valueOf(i));
                 String tempsubCategory = subCategory.getString(i);
+                if (tempsubCategory.contains("~")){
+                    break;
+                }
                 if (subCategory.length() == 1) {
                     subcat += tempsubCategory;
                 } else if (i == 0) {
