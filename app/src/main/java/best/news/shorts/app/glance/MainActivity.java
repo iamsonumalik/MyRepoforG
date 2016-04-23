@@ -63,7 +63,6 @@ public class MainActivity extends Activity
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            everythinglayout.setVisibility(View.GONE);
             chooserlayout.setVisibility(View.VISIBLE);
         }
     }

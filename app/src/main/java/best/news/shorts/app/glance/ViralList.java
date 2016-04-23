@@ -294,11 +294,11 @@ public class ViralList extends Activity {
                         String peopletags = "";
                         for (int j = 0; j < people.length(); j++) {
                             String temptag = people.getString(j);
-                            if (others.length() == 1) {
+                            if (people.length() == 1) {
                                 peopletags += temptag;
                             } else if (j == 0) {
                                 peopletags += temptag;
-                            } else if (j == (others.length() - 1)) {
+                            } else if (j == (people.length() - 1)) {
                                 peopletags += "," + temptag;
                             } else {
                                 peopletags += "," + temptag;
@@ -309,11 +309,11 @@ public class ViralList extends Activity {
                         String placetags = "";
                         for (int j = 0; j < place.length(); j++) {
                             String temptag = place.getString(j);
-                            if (others.length() == 1) {
+                            if (place.length() == 1) {
                                 placetags += temptag;
                             } else if (j == 0) {
                                 placetags += temptag;
-                            } else if (j == (others.length() - 1)) {
+                            } else if (j == (place.length() - 1)) {
                                 placetags += "," + temptag;
                             } else {
                                 placetags += "," + temptag;

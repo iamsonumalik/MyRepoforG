@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     android:id="@+id/viralbackground"
-    android:background="#fff"
+    android:background="#000"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center_vertical"
@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/videopager"
-        android:padding="5dp"
         >
     </android.support.v4.view.ViewPager>
     <RelativeLayout
@@ -24,6 +23,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clickable="true"
             >
             <RelativeLayout
                 android:layout_height="wrap_content"
@@ -69,6 +69,16 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/viralplus"
+                android:id="@+id/callmenuimageview"
+                android:layout_margin="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -142,6 +152,7 @@
         android:layout_height="match_parent"
         android:background="#000"
         android:visibility="gone"
+        android:clickable="true"
         android:id="@+id/filtetagslayout"
         >
         <RelativeLayout

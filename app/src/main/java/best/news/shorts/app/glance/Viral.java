@@ -2,18 +2,18 @@ package best.news.shorts.app.glance;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.provider.Settings;
-import android.support.v4.media.session.MediaSessionCompat;
+import android.os.Bundle;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +25,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -74,6 +73,9 @@ public class Viral extends Activity {
     private RelativeLayout bookmarkheaderlayout;
     private Button bookmarkbackbutton;
     private TextView bookmarkname;
+    private int width;
+    private int height;
+    private ImageView callmenuimageview;
 
     //00aeef
     @Override
@@ -84,6 +86,9 @@ public class Viral extends Activity {
         headingfont = Typeface.createFromAsset(getAssets(), "headline.otf");
         initializeView();
         initializeArraylists();
+        Display display = getWindowManager().getDefaultDisplay();
+        width = display.getWidth();  // deprecated
+        height = display.getHeight();  // deprecated
 
 
         prefs = getSharedPreferences(MY_PREFS_NAME, 0);
@@ -91,17 +96,19 @@ public class Viral extends Activity {
         gettoken = prefs.getString("token", "");
         String[] arraysubCategory = subCategory.split(",");
 
-        String[] temp = new String[arraysubCategory.length/12];
+        //String[] temp = new String[arraysubCategory.length/12];
 
-        Vector<View> vectorpages = new Vector<View>();
+        final Vector<View> vectorpages = new Vector<View>();
         //addfirstview(vectorpages);
+
+
         getCurrentView(arraysubCategory,vectorpages);
+        //setPageBorder(vectorpages);
         CustomPagerAdapter adapter = new CustomPagerAdapter(getBaseContext(),vectorpages);
         viewPager.setAdapter(adapter);
         viewPager.setClipToPadding(false);
-        //viewPager.setPadding(50,50,50,50);
-        viewPager.setPageMargin(
-                getResources().getDimensionPixelOffset(R.dimen.viewpager_margin));
+        viewPager.setPadding(30,15,30,15);
+        viewPager.setPageMargin(15);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -117,7 +124,7 @@ public class Viral extends Activity {
             public void onPageScrollStateChanged(int state) {
             }
         });
-        //viewPager.setPageTransformer(true, new CubeInTransformer());
+        viewPager.setPageTransformer(true, new ZoomOutSlideTransformer());
 
         filtetagsbackbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +141,36 @@ public class Viral extends Activity {
             }
         });
 
+        callmenuimageview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bookmarkheaderlayout.setVisibility(View.GONE);
+                listlayout.setVisibility(View.GONE);
+            }
+        });
+
+    }
+
+    private void setPageBorder(Vector<View> vectorpages) {
+        int size = vectorpages.size();
+        for (int i = 0 ; i<size;i++)
+        switch (i%5){
+            case 0:
+                vectorpages.get(i).setBackgroundColor(Color.RED);
+                break;
+            case 1:
+                vectorpages.get(i).setBackgroundColor(Color.BLUE);
+                break;
+            case 2:
+                vectorpages.get(i).setBackgroundColor(Color.BLACK);
+                break;
+            case 3:
+                vectorpages.get(i).setBackgroundColor(Color.GREEN);
+                break;
+            case 4:
+                vectorpages.get(i).setBackgroundColor(Color.YELLOW);
+                break;
+        }
     }
 
     private void initializeView() {
@@ -157,8 +194,10 @@ public class Viral extends Activity {
         bookmarkheaderlayout = (RelativeLayout) findViewById(R.id.bookmarkheaderlayout);
         bookmarkbackbutton =  (Button) findViewById(R.id.bookmarkbackbutton);
         bookmarkname = (TextView) findViewById(R.id.bookmarkname);
+        callmenuimageview = (ImageView) findViewById(R.id.callmenuimageview);
         removeAllImageView(getBaseContext());
         listlayout.setVisibility(View.GONE);
+        bookmarkheaderlayout.setVisibility(View.GONE);
 
     }
 
@@ -178,27 +217,53 @@ public class Viral extends Activity {
         View firstview = ((LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.viewpagerfirstview, null, false);
 
-        RelativeLayout firstpagelinearlayour = (RelativeLayout) firstview.findViewById(R.id.firstpagelinearlayour);
-
+        LinearLayout firstpagelinearlayour = (LinearLayout) firstview.findViewById(R.id.firstpagelinearlayour);
+        LinearLayout readnewslayout = (LinearLayout) firstview.findViewById(R.id.readnewslayout);
+        RelativeLayout myfeedlayout = (RelativeLayout) firstview.findViewById(R.id.myfeedlayout);
         TextView mybookmarks = (TextView) firstview.findViewById(R.id.mybookmarks);
         TextView myfeedtv = (TextView) firstview.findViewById(R.id.myfeed);
         ImageView filtetagsiconblack = (ImageView) firstview.findViewById(R.id.filtetagsiconblack);
         TextView videolisttitle = (TextView) firstview.findViewById(R.id.videolisttitle);
+        TextView readnews = (TextView) firstview.findViewById(R.id.readnews);
 
+        mybookmarks.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,(height-30)/11 , 1f));
+        myfeedlayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,(height-30)/11 , 1f));
+        videolisttitle.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,(height-30)/11 , 1f));
+        readnewslayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,(height-30)/11 , 1f));
 
+        mybookmarks.setGravity(Gravity.CENTER_VERTICAL);
+        videolisttitle.setGravity(Gravity.CENTER_VERTICAL);
         mybookmarks.setTypeface(lodingfont);
         myfeedtv.setTypeface(lodingfont);
         bookmarkname.setTypeface(lodingfont);
         videolisttitle.setTypeface(headingfont);
+        readnews.setTypeface(lodingfont);
         myfeedtv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String myfeed = prefs.getString("myfeed","");
                 if (!myfeed.equals("")) {
+                    bookmarkheaderlayout.setVisibility(View.VISIBLE);
                     bookmarkname.setText("My Feed");
                     tagsselction = myfeed.substring(0, myfeed.length() - 1);
                     generateList();
+                }else {
+                        bookmarkheaderlayout.setVisibility(View.VISIBLE);
+                        bookmarkname.setText("No Feed");
+                        listlayout.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+
+
+        readnewslayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(),LoadingActivity.class);
+                intent.putExtra("fromnoti", false);
+                intent.putExtra("news",true);
+                startActivity(intent);
+                finish();
             }
         });
         filtetagsiconblack.setOnClickListener(new View.OnClickListener() {
@@ -206,7 +271,8 @@ public class Viral extends Activity {
             public void onClick(View v) {
 
                 String myfeed = prefs.getString("myfeed","");
-                if (myfeed.equals("")) {
+                if (!myfeed.equals("")) {
+
                     filtetagslayout.setVisibility(View.VISIBLE);
                     String[] myfeedarray = myfeed.substring(0, myfeed.length() - 1).split(",");
                     Custom_FilterVIew custom_filterVIew = new Custom_FilterVIew(getBaseContext(),
@@ -214,7 +280,6 @@ public class Viral extends Activity {
                             prefs);
                     filtetagslistview.setAdapter(custom_filterVIew);
                 }else {
-
                 }
             }
         });
@@ -297,15 +362,15 @@ public class Viral extends Activity {
             pages.setOrientation(LinearLayout.VERTICAL);
             if (check==0){
                 addfirstview(pages);
-            }
-            for (int i = check; i < check+12; i++) {
-                if (i<strings.length) {
+                for (int i = check; i < check+7; i++) {
+                    if (i<strings.length) {
                         final TextView textView = new TextView(Viral.this);
                         textView.setText(strings[itemadd++]);
                         textView.setTypeface(lodingfont);
-                        textView.setTextSize(21);
-                        textView.setTextColor(Color.BLACK);
-                        textView.setPadding(0, 7, 7, 7);
+                        textView.setTextSize(24);
+                        textView.setGravity(Gravity.CENTER_VERTICAL);
+                        textView.setTextColor(Color.WHITE);
+                        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,(height-30)/11 , 1f));
                         textView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -315,10 +380,35 @@ public class Viral extends Activity {
                             }
                         });
                         pages.addView(textView);
+                    }
                 }
+                vectorpages.add(pages);
+                check = check+7;
+            }else {
+                for (int i = check; i < check + 10; i++) {
+                    if (i < strings.length) {
+                        final TextView textView = new TextView(Viral.this);
+                        textView.setText(strings[itemadd++]);
+                        textView.setTypeface(lodingfont);
+                        textView.setTextSize(24);
+                        textView.setGravity(Gravity.CENTER_VERTICAL);
+                        textView.setTextColor(Color.WHITE);
+                        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,(height-30)/10 , 1f));
+                        //textView.setPadding(0, 10, 10, 10);
+                        textView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String temp = textView.getText().toString();
+                                tagsselction = temp;
+                                generateList();
+                            }
+                        });
+                        pages.addView(textView);
+                    }
+                }
+                vectorpages.add(pages);
+                check = check + 10;
             }
-            vectorpages.add(pages);
-            check = check+12;
         }
 
     }
@@ -508,11 +598,11 @@ public class Viral extends Activity {
                         String peopletags = "";
                         for (int j = 0; j < people.length(); j++) {
                             String temptag = people.getString(j);
-                            if (others.length() == 1) {
+                            if (people.length() == 1) {
                                 peopletags += temptag;
                             } else if (j == 0) {
                                 peopletags += temptag;
-                            } else if (j == (others.length() - 1)) {
+                            } else if (j == (people.length() - 1)) {
                                 peopletags += "," + temptag;
                             } else {
                                 peopletags += "," + temptag;
@@ -523,11 +613,11 @@ public class Viral extends Activity {
                         String placetags = "";
                         for (int j = 0; j < place.length(); j++) {
                             String temptag = place.getString(j);
-                            if (others.length() == 1) {
+                            if (place.length() == 1) {
                                 placetags += temptag;
                             } else if (j == 0) {
                                 placetags += temptag;
-                            } else if (j == (others.length() - 1)) {
+                            } else if (j == (place.length() - 1)) {
                                 placetags += "," + temptag;
                             } else {
                                 placetags += "," + temptag;

@@ -135,11 +135,13 @@ public class Viral_ListView extends ArrayAdapter
         Typeface content = Typeface.createFromAsset(_activity.getAssets(), "content.otf");
         virallistviewtitle.setTypeface(lodingfont);
         virallistviewduration.setTypeface(content);
-        String imgageUrl= "http://d2vwmcbs3lyudp.cloudfront.net/"+item_public_id;
+        String imgageUrl = "http://d2vwmcbs3lyudp.cloudfront.net/" + item_public_id;
 
-        String[] tags = item_tags.split(",");
+
+    if (!item_tags.equals("")) {
+    String[] tags = item_tags.split(",");
         for (int i = 0; i < tags.length; i++) {
-                final TextView tagtv = new TextView(_activity);
+            final TextView tagtv = new TextView(_activity);
             tagtv.setText(tags[i]);
             tagtv.setTypeface(lodingfont);
             //tagtv.setPadding(7,7,7,7);
@@ -147,18 +149,21 @@ public class Viral_ListView extends ArrayAdapter
             tagtv.setBackground(getres.getDrawable(R.drawable.othertagborder));
             tagtv.setTextColor(Color.parseColor("#754c29"));
             tagtv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //tagsselction=textView.getText().toString();
-                        //new FetchTimeline().execute();
-                        Intent i = new Intent(_activity,ViralList.class);
-                        i.putExtra("tag",tagtv.getText().toString());
-                        _activity.startActivity(i);
-                    }
-                });
+                @Override
+                public void onClick(View v) {
+                    //tagsselction=textView.getText().toString();
+                    //new FetchTimeline().execute();
+                    Intent i = new Intent(_activity, ViralList.class);
+                    i.putExtra("tag", tagtv.getText().toString());
+                    _activity.startActivity(i);
+                }
+            });
             gridlayouttags.addView(tagtv);
         }
-        String[] pltags = item_peopletags.split(",");
+    }
+    if (!item_peopletags.equals("")) {
+
+    String[] pltags = item_peopletags.split(",");
         for (int i = 0; i < pltags.length; i++) {
             final TextView tagtv = new TextView(_activity);
             tagtv.setText(pltags[i]);
@@ -172,33 +177,36 @@ public class Viral_ListView extends ArrayAdapter
                 public void onClick(View v) {
                     //tagsselction=textView.getText().toString();
                     //new FetchTimeline().execute();
-                    Intent i = new Intent(_activity,ViralList.class);
-                    i.putExtra("tag",tagtv.getText().toString());
+                    Intent i = new Intent(_activity, ViralList.class);
+                    i.putExtra("tag", tagtv.getText().toString());
                     _activity.startActivity(i);
                 }
             });
             gridlayouttags.addView(tagtv);
         }
-        String[] petags = item_placetags.split(",");
-        for (int i = 0; i < petags.length; i++) {
-            final TextView tagtv = new TextView(_activity);
-            tagtv.setText(petags[i]);
-            tagtv.setTypeface(lodingfont);
-            //tagtv.setPadding(7,7,7,7);
-            tagtv.setTextSize(16);
-            tagtv.setBackground(getres.getDrawable(R.drawable.peopleborder));
-            tagtv.setTextColor(Color.parseColor("#00aeef"));
-            tagtv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //tagsselction=textView.getText().toString();
-                    //new FetchTimeline().execute();
-                    Intent i = new Intent(_activity,ViralList.class);
-                    i.putExtra("tag",tagtv.getText().toString());
-                    _activity.startActivity(i);
-                }
-            });
-            gridlayouttags.addView(tagtv);
+        }
+        if (!item_placetags.equals("")) {
+            String[] petags = item_placetags.split(",");
+            for (int i = 0; i < petags.length; i++) {
+                final TextView tagtv = new TextView(_activity);
+                tagtv.setText(petags[i]);
+                tagtv.setTypeface(lodingfont);
+                //tagtv.setPadding(7,7,7,7);
+                tagtv.setTextSize(16);
+                tagtv.setBackground(getres.getDrawable(R.drawable.peopleborder));
+                tagtv.setTextColor(Color.parseColor("#00aeef"));
+                tagtv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //tagsselction=textView.getText().toString();
+                        //new FetchTimeline().execute();
+                        Intent i = new Intent(_activity, ViralList.class);
+                        i.putExtra("tag", tagtv.getText().toString());
+                        _activity.startActivity(i);
+                    }
+                });
+                gridlayouttags.addView(tagtv);
+            }
         }
         Picasso.with(context)
                 .load(imgageUrl)

@@ -3,8 +3,9 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="10dp"
-    android:paddingTop="20dp"
-    android:background="#ccc"
+    android:weightSum="100"
+    android:background="@drawable/menuborder"
+    android:gravity="center_vertical"
     android:id="@+id/viewpagerlinearlayout"
     >
 

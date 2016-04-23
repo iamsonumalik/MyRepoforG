@@ -1,40 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/firstpagelinearlayour"
     >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="My Feed"
-        android:textColor="#000"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/mybookmarks"
-        android:id="@+id/myfeed" />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="My Bookmarks"
-        android:layout_marginTop="10dp"
-        android:textColor="#000"
+        android:textColor="#fff"
         android:id="@+id/mybookmarks" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/readnewslayout"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/backbookmark"
+            />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Read News"
+            android:textColor="#fff"
+            android:id="@+id/readnews"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="100"
+        android:id="@+id/myfeedlayout"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="My Feed"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#fff"
+        android:id="@+id/myfeed" />
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/filtetagsiconblack"
+        android:layout_centerVertical="true"
         android:background="@drawable/filtetagsiconblack"
         android:layout_alignTop="@+id/myfeed"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/myfeed" />
+    </RelativeLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,9 +72,9 @@
         android:text="Playlist you can't miss out"
         android:id="@+id/videolisttitle"
         android:layout_below="@+id/myfeed"
-        android:padding="5dp"
+        android:textColor="#f7941e"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/filtetagsiconblack"
         android:layout_alignEnd="@+id/filtetagsiconblack" />
-</RelativeLayout>
+</LinearLayout>
