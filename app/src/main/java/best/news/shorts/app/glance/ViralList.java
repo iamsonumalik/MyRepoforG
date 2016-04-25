@@ -188,7 +188,7 @@ public class ViralList extends Activity {
             headlines.removeAll(headlines);
             _id.removeAll(_id);
             viraltimestampcreated.removeAll(viraltimestampcreated);
-            youtubeVideoId.remove(youtubeVideoId);
+            youtubeVideoId.removeAll(youtubeVideoId);
             timelinedate.removeAll(timelinedate);
             timelinepublicid.removeAll(timelinepublicid);
             timelinetags.removeAll(timelinetags);

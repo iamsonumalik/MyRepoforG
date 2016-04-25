@@ -1173,6 +1173,7 @@ public class AllCategory extends Activity implements android.view.View.OnClickLi
             case R.id.allviewwatchvideolayout:
                 Intent i = new Intent(this,VideoPlayer.class);
                 i.putExtra("watch", youtubelink);
+                i.putStringArrayListExtra("youtubeVideoId",new ArrayList<String>());
                 startActivity(i);
                 break;
 

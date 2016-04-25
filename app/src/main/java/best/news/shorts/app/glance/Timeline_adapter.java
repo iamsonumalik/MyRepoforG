@@ -182,6 +182,7 @@ public class Timeline_adapter extends PagerAdapter
             {
                 Intent k = new Intent(_activity,VideoPlayer.class);
                 k.putExtra("watch", finalYoutubelink);
+                k.putStringArrayListExtra("youtubeVideoId",new ArrayList<String>());
                 _activity.startActivity(k);
             }
         });

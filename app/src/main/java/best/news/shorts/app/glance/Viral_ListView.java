@@ -128,7 +128,7 @@ public class Viral_ListView extends ArrayAdapter
         final String item_placetags = timelineplacetags.get(view_pos);
         String item__id = _id.get(view_pos);
         final String item_viraltimestampcreated = viraltimestampcreated.get(view_pos);
-        String item_youtubeVideoId = youtubeVideoId.get(view_pos);
+        final String item_youtubeVideoId = youtubeVideoId.get(view_pos);
 
         //gridlayouttags.setUseDefaultMargins(true);
         Typeface lodingfont = Typeface.createFromAsset(_activity.getAssets(), "lodingfont.ttf");
@@ -230,12 +230,13 @@ public class Viral_ListView extends ArrayAdapter
         }
 
 
-        final String finalitem_youtubeVideoId = item_youtubeVideoId;
+
         virallistviewimageviewlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent k = new Intent(_activity,VideoPlayer.class);
-                k.putExtra("watch", finalitem_youtubeVideoId);
+                k.putExtra("watch", item_youtubeVideoId);
+                k.putStringArrayListExtra("youtubeVideoId",youtubeVideoId);
                 _activity.startActivity(k);
             }
         });
@@ -266,7 +267,7 @@ public class Viral_ListView extends ArrayAdapter
                                 item_tags,
                                 finalitem__id,
                                 item_viraltimestampcreated,
-                                finalitem_youtubeVideoId,
+                                item_youtubeVideoId,
                                 item_peopletags,item_placetags
                         );
                         finalviralbookmark.setBackground(getres.getDrawable(R.drawable.b_yes));

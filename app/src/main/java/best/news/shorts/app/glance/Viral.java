@@ -104,12 +104,18 @@ public class Viral extends Activity {
 
         getCurrentView(arraysubCategory,vectorpages);
         //setPageBorder(vectorpages);
-        CustomPagerAdapter adapter = new CustomPagerAdapter(getBaseContext(),vectorpages);
+        final CustomPagerAdapter adapter = new CustomPagerAdapter(getBaseContext(),vectorpages);
         viewPager.setAdapter(adapter);
         viewPager.setClipToPadding(false);
         viewPager.setPadding(30,15,30,15);
         viewPager.setPageMargin(15);
+        viewPager.setCurrentItem(0);
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            private ViewPager   mViewPager = viewPager;
+            private int         mCurrentPosition;
+            private int         mScrollState;
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -117,11 +123,44 @@ public class Viral extends Activity {
 
             @Override
             public void onPageSelected(int position) {
+                mCurrentPosition = position;
+               /* int pageCount = adapter.getCount();
+                if (position == 0){
+                    viewPager.setCurrentItem(pageCount-2,false);
+                } else if (position == pageCount-1){
+                    viewPager.setCurrentItem(1,false);
+                }*/
 
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
+                handleScrollState(state);
+                mScrollState = state;
+            }
+            private void handleScrollState(final int state) {
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    setNextItemIfNeeded();
+                }
+            }
+
+            private void setNextItemIfNeeded() {
+                if (!isScrollStateSettling()) {
+                    handleSetNextItem();
+                }
+            }
+
+            private boolean isScrollStateSettling() {
+                return mScrollState == ViewPager.SCROLL_STATE_SETTLING;
+            }
+
+            private void handleSetNextItem() {
+                final int lastPosition = mViewPager.getAdapter().getCount() - 1;
+                if(mCurrentPosition == 0) {
+                    mViewPager.setCurrentItem(lastPosition, false);
+                } else if(mCurrentPosition == lastPosition) {
+                    mViewPager.setCurrentItem(0, false);
+                }
             }
         });
         viewPager.setPageTransformer(true, new ZoomOutSlideTransformer());
@@ -302,7 +341,7 @@ public class Viral extends Activity {
                 headlines.removeAll(headlines);
                 _id.removeAll(_id);
                 viraltimestampcreated.removeAll(viraltimestampcreated);
-                youtubeVideoId.remove(youtubeVideoId);
+                youtubeVideoId.removeAll(youtubeVideoId);
                 timelinedate.removeAll(timelinedate);
                 timelinepublicid.removeAll(timelinepublicid);
                 timelinetags.removeAll(timelinetags);
@@ -445,6 +484,21 @@ public class Viral extends Activity {
         public CustomPagerAdapter(Context context, Vector<View> pages) {
             this.mContext=context;
             this.pages=pages;
+            /*
+            int actualNoOfIDs = pages.size();
+            count = actualNoOfIDs + 2;
+            Vector<View> temppages = new Vector<View>();
+           // pageIDsArray[0] = pageIDs[actualNoOfIDs - 1];
+            temppages.add(0,new View(Viral.this));
+            for (int i = 0; i < actualNoOfIDs; i++) {
+               // pageIDsArray[i + 1] = pageIDs[i];
+                temppages.add(i+1,pages.get(i));
+            }
+            temppages.add(count - 1,new View(Viral.this));
+           // pageIDsArray[count - 1] = pageIDs[0];
+
+            //pages.removeAll(pages);
+            this.pages = temppages;   */
         }
 
 
@@ -490,7 +544,7 @@ public class Viral extends Activity {
             headlines.removeAll(headlines);
             _id.removeAll(_id);
             viraltimestampcreated.removeAll(viraltimestampcreated);
-            youtubeVideoId.remove(youtubeVideoId);
+            youtubeVideoId.removeAll(youtubeVideoId);
             timelinedate.removeAll(timelinedate);
             timelinepublicid.removeAll(timelinepublicid);
             timelinetags.removeAll(timelinetags);
