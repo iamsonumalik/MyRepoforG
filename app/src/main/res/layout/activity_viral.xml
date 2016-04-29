@@ -52,6 +52,18 @@
                     android:layout_toRightOf="@+id/bookmarkbackbutton"
                     android:layout_toEndOf="@+id/bookmarkbackbutton" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:textColor="#fff"
+                    android:text="Follow"
+                    android:background="@drawable/menuborder"
+                    android:id="@+id/bookmarkfollow"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
             </RelativeLayout>
 
             <ListView

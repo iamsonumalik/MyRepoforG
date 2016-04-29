@@ -230,10 +230,31 @@ public class Viral_ListView extends ArrayAdapter
         }
 
 
+        final String finalitem__id = item__id;
 
         virallistviewimageviewlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                SavingWatched savingWatched = new SavingWatched(_activity);
+                try {
+                    savingWatched.open();
+
+                    savingWatched.createEntry(
+                                item_headline,
+                                item_public_id,
+                                item_duration,
+                                item_tags,
+                                finalitem__id,
+                                item_viraltimestampcreated,
+                                item_youtubeVideoId,
+                                item_peopletags,item_placetags
+                        );
+
+                    savingWatched.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 Intent k = new Intent(_activity,VideoPlayer.class);
                 k.putExtra("watch", item_youtubeVideoId);
                 k.putStringArrayListExtra("youtubeVideoId",youtubeVideoId);
@@ -241,7 +262,7 @@ public class Viral_ListView extends ArrayAdapter
             }
         });
 
-        final String finalitem__id = item__id;
+
         final RelativeLayout finalvirallistviewtitlelayout = virallistviewtitlelayout;
         final Button finalviralbookmark = viralbookmark;
 
