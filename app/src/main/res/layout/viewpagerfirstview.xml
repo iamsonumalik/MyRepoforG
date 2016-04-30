@@ -6,14 +6,57 @@
     >
 
 
-
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="My Bookmarks"
-        android:textColor="#fff"
-        android:id="@+id/mybookmarks" />
+        android:weightSum="100"
+        android:id="@+id/myfeedlayout"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="My Feed"
+            android:textSize="30sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textColor="#ffd700"
+            android:id="@+id/myfeed" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/filtetagsiconblack"
+            android:layout_centerVertical="true"
+            android:background="@drawable/filtetagsiconblack"
+            android:layout_alignTop="@+id/myfeed"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/myfeed" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mybookmarkslayout"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/b_yes"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="My Bookmarks"
+            android:textColor="#a4a6a9"
+            android:id="@+id/mybookmarks" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,47 +75,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Read News"
-            android:textColor="#fff"
+            android:textColor="#a4a6a9"
             android:id="@+id/readnews"
             android:textAppearance="?android:attr/textAppearanceLarge"
             />
     </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="100"
-        android:id="@+id/myfeedlayout"
-        >
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="My Feed"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="#fff"
-        android:id="@+id/myfeed" />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/filtetagsiconblack"
-        android:layout_centerVertical="true"
-        android:background="@drawable/filtetagsiconblack"
-        android:layout_alignTop="@+id/myfeed"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@+id/myfeed" />
-    </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#a4a6a9"
+        android:layout_margin="10dp"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Playlist you can't miss out"
         android:id="@+id/videolisttitle"
+        android:visibility="gone"
         android:layout_below="@+id/myfeed"
-        android:textColor="#f7941e"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/filtetagsiconblack"

@@ -31,6 +31,7 @@ public class ViralList extends Activity {
     private static final String MY_PREFS_NAME = "MySetting";
     private String tagsselction;
     private ArrayList<String> headlines;
+    private ArrayList<String> watched;
     private ArrayList<String>  viraltimestampcreated;
     private ArrayList<String> _id;
     private ArrayList<String> timelinedate;
@@ -66,7 +67,7 @@ public class ViralList extends Activity {
         initializeArraylists();
         initializeView();
         lodingfont = Typeface.createFromAsset(getAssets(), "lodingfont.ttf");
-
+        linelodaingvideo.setTypeface(lodingfont);
         tagsselction = getIntent().getStringExtra("tag");
         prefs = getSharedPreferences(MY_PREFS_NAME, 0);
         editor = getSharedPreferences(MY_PREFS_NAME, 0).edit();
@@ -120,6 +121,7 @@ public class ViralList extends Activity {
                     editor.commit();
                     editor.apply();
                     followtag.setText("Follow");
+                    Controller.getInstance().trackEvent(tagsselction, "Follow", "user");
                 }else {
                     myfeed = myfeed + tagsselction + ",";
                     editor.putString("myfeed", myfeed);
@@ -145,7 +147,7 @@ public class ViralList extends Activity {
         vineimageview = (ImageView) findViewById(R.id.vineimageview);
         instaimageview = (ImageView) findViewById(R.id.instaimageview);
         linelodaingvideo  = (TextView) findViewById(R.id.linelodaingvideo);
-        linelodaingvideo.setTypeface(lodingfont);
+
 
 
         removeAllImageView(getBaseContext());
@@ -161,6 +163,7 @@ public class ViralList extends Activity {
 
     private void initializeArraylists() {
         headlines = new ArrayList<String>();
+        watched = new ArrayList<String>();
         viraltimestampcreated= new ArrayList<String>();
         _id = new ArrayList<String>();
         timelinedate= new ArrayList<String>();
@@ -176,7 +179,7 @@ public class ViralList extends Activity {
 
         private final Thread t;
         private Viral_ListView cv;
-
+        ArrayList<String> addatend;
         public FetchTimeline(Thread t) {
             this.t= t;
         }
@@ -185,7 +188,9 @@ public class ViralList extends Activity {
         protected void onPreExecute()
         {
             super.onPreExecute();
+            addatend = new ArrayList<String>();
             headlines.removeAll(headlines);
+            watched.removeAll(watched);
             _id.removeAll(_id);
             viraltimestampcreated.removeAll(viraltimestampcreated);
             youtubeVideoId.removeAll(youtubeVideoId);
@@ -207,7 +212,8 @@ public class ViralList extends Activity {
                     viraltimestampcreated,
                     progressBarforlist,
                     timelinepeopletags,
-                    timelineplacetags
+                    timelineplacetags,
+                    watched
 
             );
             viraltagslistview.setAdapter(cv);
@@ -251,6 +257,8 @@ public class ViralList extends Activity {
                 JSONArray array = json_data.getJSONArray("data");
                 int count = json_data.getInt("count");
 
+                SavingWatched savingWatched = new SavingWatched(ViralList.this);
+                savingWatched.open();
                 for (int i=0;i<count;i++){
                     JSONObject data = array.getJSONObject(i);
                     JSONObject publish = data.getJSONObject("publish");
@@ -259,78 +267,105 @@ public class ViralList extends Activity {
                     JSONObject tags = data.getJSONObject("tags");
 
                     if(tags.getString("category").equals("VIRAL")) {
-                        String h = data.getString("headline");
-                        headlines.add(h);
-                        _id.add(data.getString("_id"));
-                        viraltimestampcreated.add(data.getString("timestampCreated"));
+                        if (!savingWatched.getData(data.getString("_id"))) {
+                            String h = data.getString("headline");
+                            headlines.add(h);
+                            _id.add(data.getString("_id"));
+                            viraltimestampcreated.add(data.getString("timestampCreated"));
 
-                        String p_id = "";
-                        try {
-                            p_id = url_id.getString("public_id");
+                            String p_id = "";
+                            try {
+                                p_id = url_id.getString("public_id");
 
-                        } catch (Exception e) {
-                            p_id = url_id.getString("filename");
-
-                        }
-                        timelinepublicid.add(p_id);
-
-                        JSONArray others = tags.getJSONArray("other");
-                        String othertags = "";
-                        for (int j = 0; j < others.length(); j++) {
-
-                            String temptag = others.getString(j);
-                            if (others.length() == 1) {
-                                othertags += temptag;
-                            } else if (j == 0) {
-                                othertags += temptag;
-                            } else if (j == (others.length() - 1)) {
-                                othertags += "," + temptag;
-                            } else {
-                                othertags += "," + temptag;
+                            } catch (Exception e) {
+                                p_id = url_id.getString("filename");
 
                             }
-                        }
-                        JSONArray people = tags.getJSONArray("people");
-                        String peopletags = "";
-                        for (int j = 0; j < people.length(); j++) {
-                            String temptag = people.getString(j);
-                            if (people.length() == 1) {
-                                peopletags += temptag;
-                            } else if (j == 0) {
-                                peopletags += temptag;
-                            } else if (j == (people.length() - 1)) {
-                                peopletags += "," + temptag;
-                            } else {
-                                peopletags += "," + temptag;
+                            timelinepublicid.add(p_id);
 
-                            }
-                        }
-                        JSONArray place = tags.getJSONArray("place");
-                        String placetags = "";
-                        for (int j = 0; j < place.length(); j++) {
-                            String temptag = place.getString(j);
-                            if (place.length() == 1) {
-                                placetags += temptag;
-                            } else if (j == 0) {
-                                placetags += temptag;
-                            } else if (j == (place.length() - 1)) {
-                                placetags += "," + temptag;
-                            } else {
-                                placetags += "," + temptag;
-                            }
-                        }
+                            JSONArray others = tags.getJSONArray("other");
+                            String othertags = "";
+                            for (int j = 0; j < others.length(); j++) {
 
-                        timelineplacetags.add(placetags);
-                        timelinepeopletags.add(peopletags);
-                        timelinetags.add(othertags);
-                        timelinedate.add(data.getString("youtubeVideoDuration"));
-                        youtubeVideoId.add(data.getString("youtubeVideoId"));
+                                String temptag = others.getString(j);
+                                if (others.length() == 1) {
+                                    othertags += temptag;
+                                } else if (j == 0) {
+                                    othertags += temptag;
+                                } else if (j == (others.length() - 1)) {
+                                    othertags += "," + temptag;
+                                } else {
+                                    othertags += "," + temptag;
+
+                                }
+                            }
+                            JSONArray people = tags.getJSONArray("people");
+                            String peopletags = "";
+                            for (int j = 0; j < people.length(); j++) {
+                                String temptag = people.getString(j);
+                                if (people.length() == 1) {
+                                    peopletags += temptag;
+                                } else if (j == 0) {
+                                    peopletags += temptag;
+                                } else if (j == (people.length() - 1)) {
+                                    peopletags += "," + temptag;
+                                } else {
+                                    peopletags += "," + temptag;
+
+                                }
+                            }
+                            JSONArray place = tags.getJSONArray("place");
+                            String placetags = "";
+                            for (int j = 0; j < place.length(); j++) {
+                                String temptag = place.getString(j);
+                                if (place.length() == 1) {
+                                    placetags += temptag;
+                                } else if (j == 0) {
+                                    placetags += temptag;
+                                } else if (j == (place.length() - 1)) {
+                                    placetags += "," + temptag;
+                                } else {
+                                    placetags += "," + temptag;
+                                }
+                            }
+
+                            timelineplacetags.add(placetags);
+                            timelinepeopletags.add(peopletags);
+                            timelinetags.add(othertags);
+                            timelinedate.add(data.getString("youtubeVideoDuration"));
+                            youtubeVideoId.add(data.getString("youtubeVideoId"));
+                            watched.add("");
+                            Log.e("youtubeVideoId", data.getString("youtubeVideoId"));
+                        }else {
+                            addatend.add(data.getString("_id"));
+                        }
                     }
 
+
+
                 }
+                for (int x =0 ; x<addatend.size();x++ ){
+                    watched.add("Watched");
+                    ArrayList<String> temp = savingWatched.getAll(addatend.get(x));
+
+                    for (int i = 0; i<temp.size();i++){
+                        headlines.add(temp.get(i++));
+                        _id.add(temp.get(i++));
+                        viraltimestampcreated.add(temp.get(i++));
+                        youtubeVideoId.add(temp.get(i++));
+                        timelinedate.add(temp.get(i++));
+                        timelinepublicid.add(temp.get(i++));
+                        timelinetags.add(temp.get(i++));
+                        timelinepeopletags.add(temp.get(i++));
+                        timelineplacetags.add(temp.get(i));
+
+
+                    }
+                }
+                savingWatched.close();
             } catch (Exception e) {
 
-                Log.e("ViralList" ,e.toString());
+                Log.e("Viral" ,e.toString());
             }
             return null;
         }

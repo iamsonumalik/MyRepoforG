@@ -76,7 +76,7 @@
             android:orientation="vertical"
             android:gravity="center"
             android:background="#000"
-            android:layout_marginBottom="64dp"
+            android:layout_marginBottom="60dp"
             android:layout_above="@+id/mainvideos"
             android:layout_alignRight="@+id/mainvideos"
             android:layout_alignEnd="@+id/mainvideos"
@@ -107,7 +107,7 @@
             android:id="@+id/mainvideos"
             android:orientation="vertical"
             android:background="#000"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="60dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true">
             <TextView
@@ -136,7 +136,7 @@
             android:id="@+id/mainquestion"
             android:layout_below="@+id/help"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="10dp"
             android:textColor="#fff" />
 
     </RelativeLayout>

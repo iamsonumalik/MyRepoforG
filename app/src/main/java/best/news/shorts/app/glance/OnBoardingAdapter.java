@@ -57,24 +57,12 @@ public class OnBoardingAdapter extends PagerAdapter
     private void setImageDisplay(ImageView imgDisplay, int position) {
         switch (position){
             case 0:
-                imgDisplay.setImageDrawable(_activity.getResources().getDrawable(R.drawable.boardinga));
-                break;
-            case 1:
-                imgDisplay.setImageDrawable(_activity.getResources().getDrawable(R.drawable.boardingb));
-                break;
-            case 2:
                 imgDisplay.setImageDrawable(_activity.getResources().getDrawable(R.drawable.boardingc));
                 break;
-            case 3:
-                imgDisplay.setImageDrawable(_activity.getResources().getDrawable(R.drawable.boardingd));
-                break;
-            case 4:
-                imgDisplay.setImageDrawable(_activity.getResources().getDrawable(R.drawable.boardinge));
-                break;
-            case 5:
+            case 1:
                 imgDisplay.setImageDrawable(_activity.getResources().getDrawable(R.drawable.boardingf));
                 break;
-            case 6:
+            case 2:
                 imgDisplay.setImageDrawable(_activity.getResources().getDrawable(R.drawable.boardingg));
                 imgDisplay.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.ImageView;
 import java.util.ArrayList;
 
@@ -38,15 +39,21 @@ public class OnBoarding extends Activity
         image5 = (ImageView) findViewById(R.id.image5);
         image6 = (ImageView) findViewById(R.id.image6);
         image7 = (ImageView) findViewById(R.id.image7);
+        image4.setVisibility(View.GONE);
+        image5.setVisibility(View.GONE);
+        image6.setVisibility(View.GONE);
+        image7.setVisibility(View.GONE);
+
+
         final ArrayList<String> image = new ArrayList<>();
         image.add("1");
         image.add("2");
         image.add("3");
-        image.add("4");
+        /*image.add("4");
         image.add("5");
         image.add("6");
         image.add("7");
-        image.add("7");
+        image.add("7");*/
         OnBoardingAdapter onBoardingAdapter = new OnBoardingAdapter(OnBoarding.this,image);
         viewPager.setAdapter(onBoardingAdapter);
         viewPager.setCurrentItem(0);
@@ -58,7 +65,7 @@ public class OnBoarding extends Activity
             @Override
             public void onPageSelected(int position) {
                 currentPosition = position;
-                if (position==7){
+                if (position==2){
                     Intent i = new Intent(OnBoarding.this, AllCategory.class);
                     i.putExtra("moveto", "");
                     i.putExtra("isnews", true);

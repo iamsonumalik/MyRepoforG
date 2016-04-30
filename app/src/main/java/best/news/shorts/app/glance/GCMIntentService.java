@@ -198,7 +198,7 @@ public class GCMIntentService extends GCMBaseIntentService
         try {
             Log.e("body", body);
             if (!clickAction.contains("")) {
-                new InsertUpdate(clickAction, getBaseContext(), "breaking.wav", title, body, icon).execute();
+                new InsertUpdate(clickAction, getBaseContext(), sound, title, body, icon).execute();
             } else {
                 generateNotificationNews(context, title, body, sound, icon, clickAction, tag, color);
                 try {

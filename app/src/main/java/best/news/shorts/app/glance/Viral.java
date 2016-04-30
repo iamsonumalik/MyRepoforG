@@ -32,9 +32,12 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Vector;
 
 
@@ -44,6 +47,7 @@ public class Viral extends Activity {
     private SharedPreferences prefs;
     private ViewPager viewPager;
     private ArrayList<String> headlines;
+    private ArrayList<String> watched;
     private ArrayList<String>  viraltimestampcreated;
     private ArrayList<String> _id;
     private ArrayList<String> timelinedate;
@@ -98,7 +102,14 @@ public class Viral extends Activity {
         String subCategory = prefs.getString("videosubcategory","");
         gettoken = prefs.getString("token", "");
         String[] arraysubCategory = subCategory.split(",");
-
+        Arrays.sort(arraysubCategory,new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                String o11 = o1.split("\\.")[0];
+                String o21 = o2.split("\\.")[0];
+                return Integer.valueOf(o11).compareTo(Integer.valueOf(o21));
+            }
+        });
         //String[] temp = new String[arraysubCategory.length/12];
 
         final Vector<View> vectorpages = new Vector<View>();
@@ -197,6 +208,7 @@ public class Viral extends Activity {
                 String myfeed = prefs.getString("myfeed","");
                 if (myfeed.contains(tagsselction)) {
                     bookmarkfollow.setText("Follow");
+                    Controller.getInstance().trackEvent(tagsselction, "Follow", "user");
                     myfeed = myfeed.replaceAll(tagsselction + ",", "");
                     editor.putString("myfeed", myfeed);
                     editor.commit();
@@ -267,6 +279,7 @@ public class Viral extends Activity {
 
     private void initializeArraylists() {
         headlines = new ArrayList<String>();
+        watched = new ArrayList<String>();
         viraltimestampcreated= new ArrayList<String>();
         _id = new ArrayList<String>();
         timelinedate= new ArrayList<String>();
@@ -283,6 +296,7 @@ public class Viral extends Activity {
 
         LinearLayout firstpagelinearlayour = (LinearLayout) firstview.findViewById(R.id.firstpagelinearlayour);
         LinearLayout readnewslayout = (LinearLayout) firstview.findViewById(R.id.readnewslayout);
+        LinearLayout mybookmarkslayout = (LinearLayout) firstview.findViewById(R.id.mybookmarkslayout);
         RelativeLayout myfeedlayout = (RelativeLayout) firstview.findViewById(R.id.myfeedlayout);
         TextView mybookmarks = (TextView) firstview.findViewById(R.id.mybookmarks);
         TextView myfeedtv = (TextView) firstview.findViewById(R.id.myfeed);
@@ -290,7 +304,7 @@ public class Viral extends Activity {
         TextView videolisttitle = (TextView) firstview.findViewById(R.id.videolisttitle);
         TextView readnews = (TextView) firstview.findViewById(R.id.readnews);
 
-        mybookmarks.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,(height-30)/11 , 1f));
+        mybookmarkslayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,(height-30)/11 , 1f));
         myfeedlayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,(height-30)/11 , 1f));
         videolisttitle.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,(height-30)/11 , 1f));
         readnewslayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,(height-30)/11 , 1f));
@@ -307,17 +321,20 @@ public class Viral extends Activity {
             @Override
             public void onClick(View v) {
 
+                Controller.getInstance().trackEvent("My Feed", "Videos", "user");
                 bookmarkfollow.setVisibility(View.GONE);
                 String myfeed = prefs.getString("myfeed","");
                 if (!myfeed.equals("")) {
                     bookmarkheaderlayout.setVisibility(View.VISIBLE);
                     bookmarkname.setText("My Feed");
-                    tagsselction = myfeed.substring(0, myfeed.length() - 1);
+                    tagsselction ="~Recommended,"+ myfeed.substring(0, myfeed.length() - 1);
                     generateList();
                 }else {
-                        bookmarkheaderlayout.setVisibility(View.VISIBLE);
-                        bookmarkname.setText("No Feed");
-                        listlayout.setVisibility(View.VISIBLE);
+
+                    bookmarkheaderlayout.setVisibility(View.VISIBLE);
+                    bookmarkname.setText("My Feed");
+                    tagsselction ="~Recommended";
+                    generateList();
                 }
             }
         });
@@ -354,7 +371,7 @@ public class Viral extends Activity {
         mybookmarks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Controller.getInstance().trackEvent("My Bookmarks", "Videos", "user");
                 bookmarkfollow.setVisibility(View.GONE);
                 bookmarkheaderlayout.setVisibility(View.VISIBLE);
                 bookmarkname.setText("My Bookmarks");
@@ -368,6 +385,7 @@ public class Viral extends Activity {
                 ArrayList<String> temp = savingViral.getAll();
 
                 headlines.removeAll(headlines);
+                watched.removeAll(watched);
                 _id.removeAll(_id);
                 viraltimestampcreated.removeAll(viraltimestampcreated);
                 youtubeVideoId.removeAll(youtubeVideoId);
@@ -387,6 +405,7 @@ public class Viral extends Activity {
                     timelinetags.add(temp.get(i++));
                     timelinepeopletags.add(temp.get(i++));
                     timelineplacetags.add(temp.get(i));
+                    watched.add("");
 
                 }
                 Viral_ListView cv = new Viral_ListView(getBaseContext(),
@@ -401,7 +420,8 @@ public class Viral extends Activity {
                         viraltimestampcreated,
                         progressBarforlist,
                         timelinepeopletags,
-                        timelineplacetags
+                        timelineplacetags,
+                        watched
 
                 );
                 videolistview.setAdapter(cv);
@@ -442,6 +462,7 @@ public class Viral extends Activity {
                             @Override
                             public void onClick(View v) {
                                 String temp = textView.getText().toString();
+                                Controller.getInstance().trackEvent(temp, "Sub Category", "user");
                                 tagsselction = temp;
                                 bookmarkname.setText(tagsselction);
                                 bookmarkheaderlayout.setVisibility(View.VISIBLE);
@@ -590,6 +611,7 @@ public class Viral extends Activity {
             super.onPreExecute();
             addatend = new ArrayList<String>();
             headlines.removeAll(headlines);
+            watched.removeAll(watched);
             _id.removeAll(_id);
             viraltimestampcreated.removeAll(viraltimestampcreated);
             youtubeVideoId.removeAll(youtubeVideoId);
@@ -611,7 +633,8 @@ public class Viral extends Activity {
                     viraltimestampcreated,
                     progressBarforlist,
                     timelinepeopletags,
-                    timelineplacetags
+                    timelineplacetags,
+                    watched
 
             );
             videolistview.setAdapter(cv);
@@ -732,9 +755,11 @@ public class Viral extends Activity {
                             timelinetags.add(othertags);
                             timelinedate.add(data.getString("youtubeVideoDuration"));
                             youtubeVideoId.add(data.getString("youtubeVideoId"));
+                            watched.add("");
                             Log.e("youtubeVideoId", data.getString("youtubeVideoId"));
                         }else {
                             addatend.add(data.getString("_id"));
+
                         }
                     }
 
@@ -742,6 +767,7 @@ public class Viral extends Activity {
 
                 }
                 for (int x =0 ; x<addatend.size();x++ ){
+                    watched.add("Watched");
                     ArrayList<String> temp = savingWatched.getAll(addatend.get(x));
 
                     for (int i = 0; i<temp.size();i++){
@@ -783,8 +809,11 @@ public class Viral extends Activity {
             filtetagslayout.setVisibility(View.GONE);
         else if (listlayout.getVisibility()==View.VISIBLE)
             listlayout.setVisibility(View.GONE);
-        else
-        super.onBackPressed();
+        else{
+            startActivity(new Intent(Viral.this,MainActivity.class));
+            finish();
+        }
+        //super.onBackPressed();
     }
 
     private void doit(final Context baseContext) {

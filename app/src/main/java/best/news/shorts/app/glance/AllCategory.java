@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8e. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.geocities.com/kpdus/jad.html
-// Decompiler options: braces fieldsfirst space lnc 
-
 package best.news.shorts.app.glance;
 
 import android.app.Activity;
@@ -58,11 +54,6 @@ import java.util.TimeZone;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-// Referenced classes of package best.news.shorts.app.glance:
-//            SavingBookmark, MyDirectory, Controller, SavingPublicId, 
-//            FullScreenImageAdapter, SavingYoutubeLink, VerticalPager, CheckNetworkConnection, 
-//            ShareImageTask, VideoPlayer, CheckUpdate, MakeRatingDialog, 
-//            Custom_view, Viral
 
 public class AllCategory extends Activity implements android.view.View.OnClickListener
 {
@@ -628,13 +619,19 @@ public class AllCategory extends Activity implements android.view.View.OnClickLi
 
             public void onClick(View view)
             {
-                isviral = true;
-                backbookmark.setVisibility(View.GONE);
-                Intent intent = new Intent(getBaseContext(),LoadingActivity.class);
-                intent.putExtra("fromnoti", false);
-                intent.putExtra("news",false);
-                startActivity(intent);
-                finish();
+                if (CheckNetworkConnection.isConnectionAvailable(getBaseContext())) {
+                    isviral = true;
+                    backbookmark.setVisibility(View.GONE);
+                    Intent intent = new Intent(getBaseContext(), LoadingActivity.class);
+                    intent.putExtra("fromnoti", false);
+                    intent.putExtra("news", false);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    youareoffline.setVisibility(View.VISIBLE);
+                    youareofflineC.cancel();
+                    youareofflineC.start();
+                }
             }
 
         });
@@ -656,7 +653,9 @@ public class AllCategory extends Activity implements android.view.View.OnClickLi
     {
         if (doubleBackToExitPressedOnce)
         {
-            super.onBackPressed();
+            //super.onBackPressed();
+            startActivity(new Intent(AllCategory.this,MainActivity.class));
+            finish();
         } else
         {
             doubleBackToExitPressedOnce = true;
@@ -869,10 +868,18 @@ public class AllCategory extends Activity implements android.view.View.OnClickLi
         if (savingbookmark.checkID(s0)) {
             savingbookmark.deleteLink(s0);
             setbookmark.setImageDrawable(getResources().getDrawable(R.drawable.b_no));
+            youareoffline.setText("Bookmark removed.");
+            youareoffline.setVisibility(View.VISIBLE);
+            youareofflineC.cancel();
+            youareofflineC.start();
         } else {
             try
             {
                 savingbookmark.createEntry(1, s0, s, s1, s2, s3, s4);
+                youareoffline.setText("Bookmarked.");
+                youareoffline.setVisibility(View.VISIBLE);
+                youareofflineC.cancel();
+                youareofflineC.start();
             } catch (Exception exception1)
             {
                 exception1.printStackTrace();
@@ -921,14 +928,14 @@ public class AllCategory extends Activity implements android.view.View.OnClickLi
     private void setLoadingON(String s)
     {
         loadingtimelinetv.setVisibility(View.VISIBLE);
-        loadingtimelinetv.setText("Loading Timeline on:");
+        loadingtimelinetv.setText("Loading Timeline...");
         temptags = s.split(",");
         tagsji = new ArrayList();
         tagsji.add(0, timelineon);
         for (int i = 0; i < temptags.length; i++)
         {
             tagsji.add(i + 1, temptags[i]);
-            loadingtimelinetv.append((new StringBuilder()).append("\n").append(temptags[i]).toString());
+            //loadingtimelinetv.append((new StringBuilder()).append("\n").append(temptags[i]).toString());
         }
 
     }
@@ -1118,6 +1125,7 @@ public class AllCategory extends Activity implements android.view.View.OnClickLi
                     currenPosition = 0;
                     moveto = "";
                     resetViewPager();
+                    bookmarklayout.setVisibility(View.VISIBLE);
                 } else {
                     youareoffline.setText("No Bookmark marked yet.");
                     youareoffline.setVisibility(View.VISIBLE);
@@ -1604,8 +1612,10 @@ public class AllCategory extends Activity implements android.view.View.OnClickLi
                 tags.setText(item_tag);
                 if (tagsselction.contains(item_tag)) {
                     tags.setBackgroundColor(Color.parseColor("#f7941e"));
+                    tags.setTextColor(Color.BLACK);
                 } else {
                     tags.setBackgroundColor(Color.BLACK);
+                    tags.setTextColor(Color.WHITE);
                 }
                 final String finalitem_tag = item_tag;
                 final TextView finaltags = tags;
@@ -1615,10 +1625,12 @@ public class AllCategory extends Activity implements android.view.View.OnClickLi
                         if (!finalitem_tag.equals(timelineon) && !finalitem_tag.equals(notimeline)) {
                             if (tagsselction.contains(finalitem_tag)) {
                                 finaltags.setBackgroundColor(0xff000000);
+                                finaltags.setTextColor(Color.WHITE);
                                 tagsselction = tagsselction.replaceAll((new StringBuilder()).append(finalitem_tag).append(",").toString(), "");
                             } else {
                                 tagsselction = (new StringBuilder()).append(tagsselction).append(finalitem_tag).append(",").toString();
                                 finaltags.setBackgroundColor(Color.parseColor("#f7941e"));
+                                finaltags.setTextColor(Color.BLACK);
                             }
                         }
                         Log.e("tagsselction", tagsselction);

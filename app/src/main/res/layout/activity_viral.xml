@@ -47,8 +47,9 @@
                     android:textSize="21dp"
                     android:textColor="#fff"
                     android:id="@+id/bookmarkname"
-                    android:layout_margin="10dp"
                     android:layout_centerVertical="true"
+                    android:layout_margin="10dp"
+                    android:layout_toLeftOf="@+id/bookmarkfollow"
                     android:layout_toRightOf="@+id/bookmarkbackbutton"
                     android:layout_toEndOf="@+id/bookmarkbackbutton" />
 
@@ -64,6 +65,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
 
+
             </RelativeLayout>
 
             <ListView
@@ -77,7 +79,7 @@
             <ProgressBar
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
-                android:layout_height="3.0dip"
+                android:layout_height="6.0dip"
                 android:id="@+id/progressBarforlist"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
@@ -141,7 +143,6 @@
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:background="@drawable/iw"
                     android:id="@+id/instaimageview"
                     />
             </LinearLayout>
@@ -155,6 +156,7 @@
                 android:layout_below="@+id/linearLayout3"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="18dp"
+                android:textSize="21dp"
                 android:textColor="#FFF" />
             </RelativeLayout>
 

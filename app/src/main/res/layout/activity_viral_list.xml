@@ -105,6 +105,7 @@
             android:layout_below="@+id/linearLayout3"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="18dp"
+            android:textSize="21dp"
             android:textColor="#000" />
     </RelativeLayout>
 
@@ -121,7 +122,7 @@
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="3.0dip"
+        android:layout_height="6.0dip"
         android:id="@+id/progressBarforlist"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

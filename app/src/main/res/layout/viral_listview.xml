@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:orientation="vertical" android:id="@+id/playviralvideo" android:padding="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+<RelativeLayout
+    android:orientation="vertical"
+    android:id="@+id/playviralvideo"
+    android:layout_width="fill_parent" android:layout_height="wrap_content"
   xmlns:android="http://schemas.android.com/apk/res/android" xmlns:card_view="http://schemas.android.com/apk/res-auto">
-    <android.support.v7.widget.CardView android:layout_gravity="center" android:id="@+id/card_view" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="0.0dip" card_view:cardCornerRadius="10.0dip">
+    <android.support.v7.widget.CardView
+        android:layout_gravity="center"
+        android:id="@+id/card_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0.0dip"
+        card_view:cardElevation="4sp"
+        card_view:cardUseCompatPadding="true"
+        card_view:cardCornerRadius="4sp">
+
+
         <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
             <RelativeLayout android:id="@+id/virallistviewimageviewlayout" android:background="#ff000000" android:layout_width="fill_parent" android:layout_height="wrap_content">
                 <ImageView android:id="@+id/virallistviewimageview" android:layout_width="fill_parent" android:layout_height="200.0dip" android:scaleType="fitXY" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" />
                 <ImageView android:id="@+id/imageView2" android:background="@drawable/viralplay" android:layout_width="26.0dip" android:layout_height="30.0dip" android:layout_centerHorizontal="true" android:layout_centerVertical="true" />
                 <TextView android:textSize="12.0sp" android:textColor="#ffffffff" android:id="@+id/virallistviewduration" android:background="#ff000000" android:paddingLeft="4.0dip" android:paddingTop="2.0dip" android:paddingRight="4.0dip" android:paddingBottom="2.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Duration" android:layout_alignBottom="@+id/virallistviewimageview" android:layout_alignParentRight="true" />
+                <TextView
+                    android:textSize="12.0sp"
+                    android:textColor="#ffffffff"
+                    android:id="@+id/virallistviewWatched"
+                    android:background="#ff000000"
+                    android:paddingLeft="4.0dip"
+                    android:paddingTop="2.0dip"
+                    android:paddingRight="4.0dip"
+                    android:paddingBottom="2.0dip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Watched"
+                    android:layout_alignBottom="@+id/virallistviewimageview" android:layout_alignParentLeft="true" />
             </RelativeLayout>
             <RelativeLayout android:id="@+id/virallistviewtitlelayout" android:background="#ffffffff" android:paddingLeft="3.0dip" android:paddingTop="10.0dip" android:paddingRight="5.0dip" android:paddingBottom="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@+id/virallistviewimageviewlayout" android:layout_alignParentLeft="true">
                 <TextView android:textSize="18.0sp" android:textColor="#ff000000" android:id="@+id/virallistviewtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip"
@@ -15,16 +41,31 @@
                 <Button android:id="@+id/viralbookmark" android:layout_width="20.0dip" android:layout_height="20.0dip" android:scaleType="fitXY" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
             </RelativeLayout>
 
-            <GridLayout
+            <HorizontalScrollView
+                android:id="@+id/hsv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/gridlayouttags"
                 android:layout_below="@+id/virallistviewtitlelayout"
-                android:columnCount="4"
-                android:paddingLeft="3dp"
-                android:paddingTop="10dp"
-                android:paddingRight="5dp"
-                android:paddingBottom="10dp"></GridLayout>
+                android:fillViewport="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:measureAllChildren="false"
+                android:scrollbars="none" >
+                <LinearLayout
+                    android:id="@+id/innerLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/gridlayouttags"
+                        android:orientation="horizontal"></LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
         </RelativeLayout>
 
 

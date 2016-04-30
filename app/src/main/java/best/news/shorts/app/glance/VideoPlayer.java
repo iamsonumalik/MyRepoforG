@@ -80,7 +80,7 @@ public class VideoPlayer extends YouTubeBaseActivity implements YouTubePlayer.On
     private void playVideo(final YouTubePlayer player) {
         this.player =player;
         player.setShowFullscreenButton(false);
-
+        
         player.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL);
         Log.e("ist Size ", ""+youtubeVideoId.size());
 
@@ -151,7 +151,7 @@ public class VideoPlayer extends YouTubeBaseActivity implements YouTubePlayer.On
                     Log.e("Ex Player" , e.toString());
                 }
             }
-        }, 1000L);
+        }, 500L);
     }
 
     @Override

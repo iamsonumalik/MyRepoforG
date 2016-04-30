@@ -22,6 +22,8 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.squareup.picasso.Picasso;
@@ -104,7 +106,7 @@ public class MainActivity extends Activity
         final Typeface face = Typeface.createFromAsset(getAssets(), "lodingfont.ttf");
         tv.setTypeface(face);
         time.setTypeface(greeting);
-        mainquestion.setTypeface(greeting);
+        mainquestion.setTypeface(face);
         newstv.setTypeface(face);
         videostv.setTypeface(face);
 
@@ -114,7 +116,7 @@ public class MainActivity extends Activity
 
         prefs = getSharedPreferences(MY_PREFS_NAME, 0);
         editor = getSharedPreferences(MY_PREFS_NAME, 0).edit();
-        Controller.getInstance().trackEvent("OpenApp", "Splash Screen", "user");
+
 
         if (Environment.getExternalStorageState() == null) {
             directory = new File(Environment.getDataDirectory()
@@ -163,6 +165,7 @@ public class MainActivity extends Activity
         mainnews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Controller.getInstance().trackEvent("Read news", "Splash Screen", "user");
                 Intent intent = new Intent(getBaseContext(),LoadingActivity.class);
                 intent.putExtra("fromnoti", fromnoti);
                 intent.putExtra("news",true);
@@ -174,11 +177,16 @@ public class MainActivity extends Activity
         mainvideos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(),LoadingActivity.class);
-                intent.putExtra("fromnoti", fromnoti);
-                intent.putExtra("news",false);
-                startActivity(intent);
-                finish();
+                Controller.getInstance().trackEvent("Watch videos", "Splash Screen", "user");
+                if (CheckNetworkConnection.isConnectionAvailable(getBaseContext())) {
+                    Intent intent = new Intent(getBaseContext(), LoadingActivity.class);
+                    intent.putExtra("fromnoti", fromnoti);
+                    intent.putExtra("news", false);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    Toast.makeText(getBaseContext(),"No Internet.",Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
